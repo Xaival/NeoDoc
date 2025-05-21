@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Página</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="dark Edit">
+    <div id="menu-lateral" class="active">
+      <div class="popup-backdrop" onclick="toggleMenu()" ontouchstart="toggleMenu()"></div>
+      <div class="btn-desplegable" onclick="toggleMenu()" ontouchstart="toggleMenu()"><i class="menu"></i></div>
+      <div class="panel-menu">
+        <div class="indice">
+          <h2>Nombre</h2>
+          <div class="nombre">
+            <p contenteditable="true" oninput="document.title=this.innerText.trim()!=='' ? this.innerText:'Titulo'" onblur="if (this.innerText.trim() === '') {this.innerText = 'Titulo';}">Tu Página</p>
+            <i class="edit"></i>
+          </div>
+          <h2>Índice</h2>
+          <div id="indice"></div>
+        </div>
+        <div class="configuracion">
+          <a href="#" title="Guardar"><i class="download"></i></a>
+          <a href="#" title="Importar"><i class="import"></i></a>
+          <a href="#" title="Exportar"><i class="export"></i></a>
+          <a href="#" title="Historial"><i class="story"></i></a>
+          <a href="#" title="Editar" onclick="ModeEditar()" ontouchstart="ModeEditar()"><i class="edit"></i></a>
+          <a href="#" title="Vista" onclick="ModeView()" ontouchstart="ModeView()"><i class="view"></i></a>
+          <a href="#" title="Cambiar aspecto" onclick="document.body.classList.toggle('dark');" ontouchstart="document.body.classList.toggle('dark');"><i class="light"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cuerpo">
+      <div class="menu-superior">
+        <div class="menuEdicion">
+          <a href="#" title="Negrita (Ctrl+B)" class="opcion" id="negro" onclick="aplicarFormato('bold')" ontouchstart="aplicarFormato('bold')"><i class="bold"></i></a>
+          <a href="#" title="Cursiva (Ctrl+I)" class="opcion" id="cursiva" onclick="aplicarFormato('italic')" ontouchstart="aplicarFormato('italic')"><i class="italic"></i></a>
+          <a href="#" title="Tachar" class="opcion" id="tachar" onclick="aplicarFormato('strikeThrough')" ontouchstart="aplicarFormato('strikeThrough')"><i class="strikeThrough"></i></a>
+          <a href="#" title="Subrayar (Ctrl+U)" class="opcion" id="subrayar" onclick="aplicarFormato('underline')" ontouchstart="aplicarFormato('underline')"><i class="underline"></i></a>
+          <hr>
+          <label for="colorTexto" title="Color de texto" class="opcion">
+            <i class="foreColor"></i>
+            <input type="color" id="colorTexto" oninput="cambiarColor('foreColor', this.value)">
+            <span style="background: black;" id="color-texto"></span>
+          </label>
+          <label for="colorResaltar" title="Color de relleno" class="opcion">
+            <i class="backColor"></i>
+            <input type="color" id="colorResaltar" oninput="cambiarColor('backColor', this.value)">
+            <span style="background: black;" id="color-resaltar"></span>
+          </label>
+          <a href="#" title="Superíndice" class="opcion" id="superindice" onclick="aplicarFormato('superscript')" ontouchstart="aplicarFormato('superscript')"><i class="superscript"></i></a>
+          <a href="#" title="Subíndice" class="opcion" id="subindice" onclick="aplicarFormato('subscript')" ontouchstart="aplicarFormato('subscript')"><i class="subscript"></i></a>
+          <hr>
+          <a href="#" title="Alinear a la izquierda" class="opcion" id="izquierda" onclick="aplicarFormato('justifyLeft')" ontouchstart="aplicarFormato('justifyLeft')"><i class="justifyLeft"></i></a>
+          <a href="#" title="Alinear al centro" class="opcion" id="centro" onclick="aplicarFormato('justifyCenter')" ontouchstart="aplicarFormato('justifyCenter')"><i class="justifyCenter"></i></a>
+          <a href="#" title="Alinear a la derecha" class="opcion" id="derecha" onclick="aplicarFormato('justifyRight')" ontouchstart="aplicarFormato('justifyRight')"><i class="justifyRight"></i></a>
+          <a href="#" title="Justificar texto" class="opcion" id="justificar" onclick="aplicarFormato('justifyFull')" ontouchstart="aplicarFormato('justifyFull')"><i class="justifyFull"></i></a>
+          <hr>
+          <a href="#" title="Lista con viñeta" class="opcion" id="lista-viñeta" onclick="aplicarFormato('insertUnorderedList')" ontouchstart="aplicarFormato('insertUnorderedList')"><i class="insertUnorderedList"></i></a>
+          <a href="#" title="Lista con numerada" class="opcion" id="lista-numerada" onclick="aplicarFormato('insertOrderedList')" ontouchstart="aplicarFormato('insertOrderedList')"><i class="insertOrderedList"></i></a>
+          <a href="#" title="Reducir sangria" class="opcion" id="reducir-sangria" onclick="aplicarFormato('outdent')" ontouchstart="aplicarFormato('outdent')"><i class="outdent"></i></a>
+          <a href="#" title="Aumentar sangria" class="opcion" id="aumentar-sangria" onclick="aplicarFormato('indent')" ontouchstart="aplicarFormato('indent')"><i class="indent"></i></a>
+          <hr>
+          <a href="#" title="Insertar enlace" class="opcion" id="enlaces" onclick="insertarEnlace()" ontouchstart="insertarEnlace()"><i class="insertarEnlace"></i></a>
+          <a href="#" title="Borrar formato" class="opcion" id="borrar-formato" onclick="aplicarFormato('removeFormat')" ontouchstart="aplicarFormato('removeFormat')"><i class="removeFormat"></i></a>
+        </div>
+      </div>
+
+      <div id="conten">
+        <div class="seccion">
+          <div class="columna">
+            <div class="content texto" data-info='{"tipo": "texto"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <div>Editar tipo de elemento</div>
+                <div>Hacer personalizaciones Contenido</div>
+                <div>Añadir Duplicar</div>
+                <div>function openTap(element, tipo) { quizas requiera otra variable o algo para espesificar el contenido</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="seccion columnas columnas11">
+          <div class="columna">
+            <div class="content texto" data-info='{"tipo": "texto"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+              </div>
+            </div>
+            <div class="content texto" data-info='{"tipo": "texto"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+              </div>
+            </div>
+          </div>
+          <div class="columna">
+            <div class="content texto" data-info='{"tipo": "texto"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+              </div>
+            </div>
+            <div class="content texto" data-info='{"tipo": "texto"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="seccion">
+          <div class="columna">
+            <div class="content desplegable" data-info='{"tipo": "desplegable"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Titulo y desplegable -->
+                <div class="titulo">
+                  <i class="arrow" onclick="desplegar(this)" ontouchstart="desplegar(this)"></i>
+                  <div contenteditable="true" onmouseup="actualizarBotonesFormato()">Desplegable</div>
+                </div>
+                <div class="desplegado" style="max-height: 0px; overflow: hidden;">
+                  <!-- Contenido aquí -->
+                  <div class="seccion">
+                    <div class="columna">
+                      <div class="content texto" data-info='{"tipo": "texto"}'>
+                        <div class="conf">
+                          <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                          <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+                        </div>
+                        <div class="ajustes">
+                          <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                          <div class="configura">
+                            <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                            <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                            <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                          </div>
+                        </div>
+                        <div class="contenido texto" contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                          <!-- Contenido aquí -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "1"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H1_0"></div>
+                <h1 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Enlace 1</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "2"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H2_1"></div>
+                <h2 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Subenlace 1.1</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "3"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H3_2"></div>
+                <h3 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Subenlace 1.1.1</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "4"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H4_3"></div>
+                <h4 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Subenlace 1.1.1.1</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "5"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H5_4"></div>
+                <h5 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Subenlace 1.1.1.1.1</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "2"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H2_5"></div>
+                <h2 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Subenlace 1.2</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "1"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo"></div>
+                <h1 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Enlace 2</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Titulo -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content titulo" data-info='{"tipo": "titulo", "nivel": "1"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="titulo" id="H1_7"></div>
+                <h1 contenteditable="true" onmouseup="actualizarBotonesFormato()" onkeyup="UpdateTitulos()">Enlace 3</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tabla -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content tabla" data-info='{"tipo": "tabla"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <table><tbody>
+                  <tr>
+                  <th contenteditable="true" onmouseup="actualizarBotonesFormato()">
+                    Titulo 1 - Tuasdasdas sadas 
+                    dsafasdfdafdfa
+                    adsfdafdafajsnfmsadnfjsaijukbduajksb lasdkh fiuhenasdfk bakfbksa bfkldebf askjhdbfvknbfg vsdbkbgvksgkbak l
+                  </th>
+                  <th contenteditable="true" onmouseup="actualizarBotonesFormato()">Titulo 1 - Tuasdasdas sadas </th>
+                  <th contenteditable="true" onmouseup="actualizarBotonesFormato()">Titulo 1 - Tuasdasdas sadas </th>
+                  </tr>
+                  <tr>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 1</td>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 2</td>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 3</td>
+                  </tr>
+                  <tr>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 4</td>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 5</td>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 6</td>
+                  </tr>
+                  <tr>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 7</td>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 8</td>
+                  <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Celda 9</td>
+                  </tr>
+                </tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Código -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content code" data-info='{"tipo": "code"}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido">
+                <!-- Contenido aquí -->
+                <div class="Codigo">
+                  <div class="titulo">Código HTML</div>
+                  <div class="copy"><button type="button" onclick="CopyCode(this)">Copiar</button></div>
+                  <pre><code class="HTML" contenteditable="true" onkeydown="manejarTab(event, this)" onmouseup="actualizarBotonesFormato()" onfocus="limpiarContenido0(this)" onblur="limpiarContenido0(this); hljs.highlightAll();">&lt;a class="download" id="link1" href="#" download="success.txt"&gt;
+  &lt;div class="text"&gt;&lt;span&gt;Download&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="icon"&gt;&lt;/div&gt;
+&lt;/a&gt;</code></pre>
+                  <div class="leyenda" contenteditable="true" onmouseup="actualizarBotonesFormato()" onblur="limpiarContenido0(this)">
+                    Respuesta
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Imagen Preview -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content imagen" data-info='{"tipo": "imagen", "contenido": ""}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+                  <div class="icon"></div>
+                  <p>Imagen</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Imagen -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content imagen" data-info='{"tipo": "imagen", "contenido": ""}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <img src="https://unsplash.it/900/500/">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio Preview -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content audio" data-info='{"tipo": "audio", "contenido": ""}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+                  <div class="icon"></div>
+                  <p>Audio</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content audio" data-info='{"tipo": "audio", "contenido": ""}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <audio controls=""><source src="https://archive.org/download/emptyroom_2201.poem_librivox/emptyroom_bates_ac.mp3" type="audio/mpeg"></audio>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Preview -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content video" data-info='{"tipo": "video", "contenido": ""}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+                  <div class="icon"></div>
+                  <p>Video</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content video" data-info='{"tipo": "video", "contenido": ""}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <video controls=""><source src="https://archive.org/download/Pittsburgh_Slim_Girls_Kiss_Girls/Pittsburgh%20Slim_Girls%20Kiss%20Girls.mp4" type="video/mp4"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Iframe Preview -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content iframe" data-info='{"tipo": "iframe", "contenido": "", "loading": "", "allowfullscreen":false, "allow-scripts":false, "allow-same-origin":false, "allow-popups":false, "allow-presentation":false, "allow-modals":false}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+                  <div class="icon"></div>
+                  <p>Iframe</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Iframe -->
+        <div class="seccion">
+          <div class="columna">
+            <div class="content iframe" data-info='{"tipo": "iframe", "contenido": "https://www.youtube-nocookie.com/embed/CXerF6crDRs", "loading": "", "allowfullscreen":true, "allow-scripts":false, "allow-same-origin":false, "allow-popups":false, "allow-presentation":false, "allow-modals":false}'>
+              <div class="conf">
+                <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+                <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
+              </div>
+              <div class="ajustes">
+                <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+                <div class="configura">
+                  <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+                  <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+                </div>
+              </div>
+              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+                <!-- Contenido aquí -->
+                <iframe src="https://www.youtube-nocookie.com/embed/CXerF6crDRs"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Ventanas -->
+    <div id="menuTap" class="">
+      <div class="popup-backdrop" onclick="closeTap(this)" ontouchstart="closeTap(this)"></div>
+      <div class="AddTap">
+        <div class="barraTitulo">
+          <p>Añadir</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
+        </div>
+        <div class="info">
+          <!-- Distribución -->
+          <p>Distribución</p>
+          <div class="distribucion">
+            <p onclick="addContent('col11')" ontouchstart="addContent('col11')"><i class="col11"></i></p>
+            <p onclick="addContent('col21')" ontouchstart="addContent('col21')"><i class="col21"></i></p>
+            <p onclick="addContent('col12')" ontouchstart="addContent('col12')"><i class="col12"></i></p>
+            <p onclick="addContent('col111')" ontouchstart="addContent('col111')"><i class="col111"></i></p>
+            <p onclick="addContent('col112')" ontouchstart="addContent('col112')"><i class="col112"></i></p>
+            <p onclick="addContent('col121')" ontouchstart="addContent('col121')"><i class="col121"></i></p>
+            <p onclick="addContent('col211')" ontouchstart="addContent('col211')"><i class="col211"></i></p>
+          </div>
+          <!-- Contenido -->
+          <p>Contenido</p>
+          <div class="contenido">
+            <p onclick="addContent('titulo')" ontouchstart="addContent('titulo')"><i class="titulo"></i>Título</p>
+            <p onclick="addContent('texto')" ontouchstart="addContent('texto')"><i class="texto"></i>Texto</p>
+            <p onclick="addContent('desplegable')" ontouchstart="addContent('desplegable')"><i class="arrow"></i>Desplegable</p>
+            <p onclick="addContent('tabla')" ontouchstart="addContent('tabla')"><i class="tabla"></i>Tabla</p>
+            <p onclick="addContent('iframe')" ontouchstart="addContent('iframe')"><i class="iframe"></i>Iframe</p>
+            <p onclick="addContent('imagen')" ontouchstart="addContent('imagen')"><i class="imagen"></i>Imagen</p>
+            <p onclick="addContent('audio')" ontouchstart="addContent('audio')"><i class="audio"></i>Audio</p>
+            <p onclick="addContent('video')" ontouchstart="addContent('video')"><i class="video"></i>Video</p>
+            <p onclick="addContent('codigo')" ontouchstart="addContent('codigo')"><i class="codigo"></i>Código</p>
+            <p onclick="addContent('custom')" ontouchstart="addContent('custom')"><i class="custom"></i>Personalizado</p>
+          </div>
+        </div>
+      </div>
+      <div class="EditarTap">
+        <div class="barraTitulo">
+          <p>Editar</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
+        </div>
+        <div class="info">
+          <!-- Contenido -->
+          Cambiar el tipo de contenido a una imagen o lo que sea
+          Añadir clase personalizada para poder modificarla posteriormente desde configuracion.
+        </div>
+      </div>
+      <div class="ContenidoTap">
+        <div class="barraTitulo">
+          <p>Contenido</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
+        </div>
+        <div class="info">
+          <!-- Contenido -->
+          <form></form>
+        </div>
+      </div>
+      <div class="ConfigTap">
+        <div class="barraTitulo">
+          <p>Configuración</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
+        </div>
+        <div class="info">
+          <!-- Contenido -->
+          Modo claro
+            --fondo: #EBE7E0;
+            --fondo-elemento: #dfdbd3cc;
+            --fondo-elemento-resaltado: #c9c5bcb3;
+            --fondo-reslatado: #00000005;
+            --fondo-reslatado-activo: #00000010;
+            --text-base: #595959;
+            --text-resaltado: #000000;
+            --text-secundario: #787878;
+            --comando-fondo-marco: #e1d7cd;
+            --comando-fondo: #ebe6dc;
+          
+          Modo oscuro
+            --fondo: #101010;
+            --fondo-elemento: #151515cc;
+            --fondo-elemento-resaltado: #1c1c1cb3;
+            --fondo-reslatado: #ffffff05;
+            --fondo-reslatado-activo: #ffffff10;
+            --text-base: #f5f5f5;
+            --text-resaltado: #FFFFFF;
+            --text-secundario: #BFBFBF;
+            --comando-fondo-marco: #141414;
+            --comando-fondo: #000;
+          
+          <Textarea>donde poner styles personalizados a parte</Textarea>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="Highlight.js"></script>
+  </body>
+</html>
