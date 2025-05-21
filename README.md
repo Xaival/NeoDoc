@@ -35,6 +35,8 @@ Puedes añadir los siguientes elementos a cualquier sección:
 - **Código**
 - **Personalizado** (HTML libre)
 
+![image](https://github.com/user-attachments/assets/72f54788-c650-4829-ad30-39f44a4959cb)
+
 ---
 
 ## 🚧 Pendiente de implementar
