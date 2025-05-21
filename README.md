@@ -2,7 +2,7 @@
 
 **NeoDoc** es un editor de texto enriquecido portable en una sola página HTML. Su objetivo es reemplazar los documentos tradicionales por experiencias más flexibles, modulares y web-like, sin necesidad de instalación o servidores.
 
-> 🚧 Proyecto en desarrollo activo – ¡las contribuciones y sugerencias son bienvenidas!
+> 🚧 Proyecto en desarrollo activo
 
 ---
 
