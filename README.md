@@ -55,10 +55,21 @@ Abre `index.html` directamente en tu navegador. No se requiere instalación ni c
 
 ## 📌 Estado del proyecto
 
-Este proyecto está en fase temprana de desarrollo. Las funcionalidades pueden cambiar o mejorar rápidamente. Puedes seguir el avance, sugerir mejoras o contribuir directamente.
+Este proyecto está en fase temprana de desarrollo. Las funcionalidades pueden cambiar o mejorar rápidamente.
 
 ---
 
 ## 📜 Licencia
 
-[MIT](./LICENSE)
+Licencia NeoDoc (basada en MIT) – © 2025 Xaival
+
+Este software es libre y puede ser utilizado, copiado, modificado y distribuido para fines personales, educativos o comerciales **sin fines de lucro**, siempre que se mantenga este aviso de licencia.
+
+**Restricción de uso comercial:**  
+No está permitido vender este software, ni usarlo con fines comerciales directos (incluyendo su redistribución o reempaquetado comercial), salvo que se haya modificado sustancialmente (más del 50% del código y funcionalidades originales).
+
+Se entiende por "modificación sustancial" la adición o alteración de al menos la mitad del contenido original, aportando mejoras o características nuevas que lo diferencien claramente del proyecto original.
+
+EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍAS DE NINGÚN TIPO. EL AUTOR NO SE RESPONSABILIZA DE NINGÚN DAÑO DERIVADO DEL USO DEL MISMO.
+
+Autor: Xaival
