@@ -62,4 +62,4 @@ Este proyecto está en fase temprana de desarrollo. Las funcionalidades pueden c
 ## 📜 Licencia
 
 Este proyecto se distribuye bajo la **Licencia NeoDoc**.  
-Consulta el archivo [LICENSE](./LICENSE) para más detalles.
+Consulta el archivo [LICENSE](./LICENCIA.txt) para más detalles.
