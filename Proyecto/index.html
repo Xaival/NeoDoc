@@ -21,10 +21,11 @@
           <div id="indice"></div>
         </div>
         <div class="configuracion">
-          <a href="#" title="Guardar"><i class="download"></i></a>
+          <a href="#" title="Configuracion" onclick="openTap(this, 'Configuracion')"><i class="config"></i></a>
+          <a href="#" title="Guardar" onclick="SaveHTML()"><i class="download"></i></a>
           <a href="#" title="Importar"><i class="import"></i></a>
           <a href="#" title="Exportar"><i class="export"></i></a>
-          <a href="#" title="Historial"><i class="story"></i></a>
+          <a href="#" title="Historial" onclick="openTap(this, 'Historial')"><i class="story"></i></a>
           <a href="#" title="Editar" onclick="ModeEditar()" ontouchstart="ModeEditar()"><i class="edit"></i></a>
           <a href="#" title="Vista" onclick="ModeView()" ontouchstart="ModeView()"><i class="view"></i></a>
           <a href="#" title="Cambiar aspecto" onclick="document.body.classList.toggle('dark');" ontouchstart="document.body.classList.toggle('dark');"><i class="light"></i></a>
@@ -34,7 +35,7 @@
 
     <div class="cuerpo">
       <div class="menu-superior">
-        <div class="menuEdicion">
+        <div class="menuEdicion" id="menuEdicion">
           <a href="#" title="Negrita (Ctrl+B)" class="opcion" id="negro" onclick="aplicarFormato('bold')" ontouchstart="aplicarFormato('bold')"><i class="bold"></i></a>
           <a href="#" title="Cursiva (Ctrl+I)" class="opcion" id="cursiva" onclick="aplicarFormato('italic')" ontouchstart="aplicarFormato('italic')"><i class="italic"></i></a>
           <a href="#" title="Tachar" class="opcion" id="tachar" onclick="aplicarFormato('strikeThrough')" ontouchstart="aplicarFormato('strikeThrough')"><i class="strikeThrough"></i></a>
@@ -65,6 +66,8 @@
           <hr>
           <a href="#" title="Insertar enlace" class="opcion" id="enlaces" onclick="insertarEnlace()" ontouchstart="insertarEnlace()"><i class="insertarEnlace"></i></a>
           <a href="#" title="Borrar formato" class="opcion" id="borrar-formato" onclick="aplicarFormato('removeFormat')" ontouchstart="aplicarFormato('removeFormat')"><i class="removeFormat"></i></a>
+          <hr>
+          <a href="#" title="Insertar ecuación" class="opcion" id="ecuacion" onclick="" ontouchstart=""><i class="insertarEcuacion"></i></a>
         </div>
       </div>
 
@@ -81,15 +84,16 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
               <div class="contenido" contenteditable="true" onmouseup="actualizarBotonesFormato()">
                 <!-- Contenido aquí -->
-                <div>Editar tipo de elemento</div>
-                <div>Hacer personalizaciones Contenido</div>
-                <div>Añadir Duplicar</div>
-                <div>function openTap(element, tipo) { quizas requiera otra variable o algo para espesificar el contenido</div>
+                <div>Falta, aplicar la edición de contenido</div>
+                <div>Para multimedia este formula parece no hacer nada formularioModificado()</div>
+                <div>Crear editor para ecuaciones matemáticas</div>
+                <div><math><mi>x</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi>±<msqrt><msup><mi>b</mi><mn>2</mn>-4<mi>a</mi><mi>c</mi></msup></msqrt></mrow><mrow>2<mi>a</mi></mrow></mfrac></math></div>
               </div>
             </div>
           </div>
@@ -107,6 +111,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -124,6 +129,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -143,6 +149,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -160,6 +167,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -182,6 +190,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -205,6 +214,7 @@
                           <div class="configura">
                             <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                             <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                            <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                             <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                           </div>
                         </div>
@@ -233,6 +243,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -258,6 +269,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -283,6 +295,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -308,6 +321,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -333,6 +347,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -358,6 +373,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -383,6 +399,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -408,6 +425,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -433,6 +451,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -472,7 +491,7 @@
         <!-- Código -->
         <div class="seccion">
           <div class="columna">
-            <div class="content code" data-info='{"tipo": "code"}'>
+            <div class="content code" data-info='{"tipo": "code", "lenguaje": "html"}'>
               <div class="conf">
                 <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
                 <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
@@ -482,6 +501,7 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
@@ -490,11 +510,11 @@
                 <div class="Codigo">
                   <div class="titulo">Código HTML</div>
                   <div class="copy"><button type="button" onclick="CopyCode(this)">Copiar</button></div>
-                  <pre><code class="HTML" contenteditable="true" onkeydown="manejarTab(event, this)" onmouseup="actualizarBotonesFormato()" onfocus="limpiarContenido0(this)" onblur="limpiarContenido0(this); hljs.highlightAll();">&lt;a class="download" id="link1" href="#" download="success.txt"&gt;
+                  <pre><code class="html" contenteditable="true" onkeydown="manejarTab(event, this)" onfocus="limpiarContenido0(this)" onblur="limpiarContenido0(this); hljs.highlightElement(this);">&lt;a class="download" id="link1" href="#" download="success.txt"&gt;
   &lt;div class="text"&gt;&lt;span&gt;Download&lt;/span&gt;&lt;/div&gt;
   &lt;div class="icon"&gt;&lt;/div&gt;
 &lt;/a&gt;</code></pre>
-                  <div class="leyenda" contenteditable="true" onmouseup="actualizarBotonesFormato()" onblur="limpiarContenido0(this)">
+                  <div class="leyenda" contenteditable="true" onblur="limpiarContenido0(this)">
                     Respuesta
                   </div>
                 </div>
@@ -516,10 +536,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
                   <div class="icon"></div>
@@ -533,7 +554,7 @@
         <!-- Imagen -->
         <div class="seccion">
           <div class="columna">
-            <div class="content imagen" data-info='{"tipo": "imagen", "contenido": ""}'>
+            <div class="content imagen" data-info='{"tipo": "imagen", "contenido": "url"}'>
               <div class="conf">
                 <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
                 <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
@@ -543,10 +564,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <img src="https://unsplash.it/900/500/">
               </div>
@@ -567,10 +589,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
                   <div class="icon"></div>
@@ -584,7 +607,7 @@
         <!-- Audio -->
         <div class="seccion">
           <div class="columna">
-            <div class="content audio" data-info='{"tipo": "audio", "contenido": ""}'>
+            <div class="content audio" data-info='{"tipo": "audio", "contenido": "url"}'>
               <div class="conf">
                 <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
                 <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
@@ -594,10 +617,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <audio controls=""><source src="https://archive.org/download/emptyroom_2201.poem_librivox/emptyroom_bates_ac.mp3" type="audio/mpeg"></audio>
               </div>
@@ -608,7 +632,7 @@
         <!-- Video Preview -->
         <div class="seccion">
           <div class="columna">
-            <div class="content video" data-info='{"tipo": "video", "contenido": ""}'>
+            <div class="content video" data-info='{"tipo": "video",  "contenido": ""}'>
               <div class="conf">
                 <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
                 <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
@@ -618,10 +642,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
                   <div class="icon"></div>
@@ -635,7 +660,7 @@
         <!-- Video -->
         <div class="seccion">
           <div class="columna">
-            <div class="content video" data-info='{"tipo": "video", "contenido": ""}'>
+            <div class="content video" data-info='{"tipo": "video",  "contenido": "url"}'>
               <div class="conf">
                 <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
                 <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
@@ -645,12 +670,13 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
-                <video controls=""><source src="https://archive.org/download/Pittsburgh_Slim_Girls_Kiss_Girls/Pittsburgh%20Slim_Girls%20Kiss%20Girls.mp4" type="video/mp4"></video>
+                <video controls=""><source src="https://deepmind.google/api/blob/website/media/us_wm_veo_3_a-medium-shot-frames-an-old-sailor-his-knitted-blue-sailor-hat_LLpQrIw.mp4" type="video/mp4"></video>
               </div>
             </div>
           </div>
@@ -669,10 +695,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
                   <div class="icon"></div>
@@ -696,10 +723,11 @@
                 <div class="configura">
                   <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
                   <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+                  <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
                   <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
                 </div>
               </div>
-              <div class="contenido" onmouseup="actualizarBotonesFormato()">
+              <div class="contenido">
                 <!-- Contenido aquí -->
                 <iframe src="https://www.youtube-nocookie.com/embed/CXerF6crDRs"></iframe>
               </div>
@@ -760,8 +788,7 @@
           <p>Contenido</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
         </div>
         <div class="info">
-          <!-- Contenido -->
-          <form></form>
+          <form><!-- Contenido --></form>
         </div>
       </div>
       <div class="ConfigTap">
@@ -769,35 +796,51 @@
           <p>Configuración</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
         </div>
         <div class="info">
-          <!-- Contenido -->
-          Modo claro
-            --fondo: #EBE7E0;
-            --fondo-elemento: #dfdbd3cc;
-            --fondo-elemento-resaltado: #c9c5bcb3;
-            --fondo-reslatado: #00000005;
-            --fondo-reslatado-activo: #00000010;
-            --text-base: #595959;
-            --text-resaltado: #000000;
-            --text-secundario: #787878;
-            --comando-fondo-marco: #e1d7cd;
-            --comando-fondo: #ebe6dc;
-          
-          Modo oscuro
-            --fondo: #101010;
-            --fondo-elemento: #151515cc;
-            --fondo-elemento-resaltado: #1c1c1cb3;
-            --fondo-reslatado: #ffffff05;
-            --fondo-reslatado-activo: #ffffff10;
-            --text-base: #f5f5f5;
-            --text-resaltado: #FFFFFF;
-            --text-secundario: #BFBFBF;
-            --comando-fondo-marco: #141414;
-            --comando-fondo: #000;
-          
-          <Textarea>donde poner styles personalizados a parte</Textarea>
+          <textarea id="CustomStyleEdit" placeholder="Introduce CSS personalizado aquí"></textarea>
+          <div class="accion">
+            <button class="" type="button" onclick="closeTap(this)">Cancelar</button>
+            <button class="" type="button" onclick="document.getElementById('CustomStyle').innerHTML = document.getElementById('CustomStyleEdit').value; closeTap(this)">Aplicar</button>
+          </div>
         </div>
       </div>
-    </div>
+      <div class="StoryTap">
+        <div class="barraTitulo">
+          <p>Historial</p><i class="close" onclick="closeTap(this)" ontouchstart="closeTap(this)"></i>
+        </div>
+        <div class="info">
+          <form><!-- Contenido --></form>
+        </div>
+      </div>
+<style id="CustomStyle">:root body {
+  --fondo: #EBE7E0;
+  --fondo-elemento: #dfdbd3e6;
+  --fondo-elemento-resaltado: #c9c5bcb3;
+  --fondo-resaltado: #00000005;
+  --fondo-resaltado-activo: #00000010;
+  --fondo-resaltado2: #ffffff40;
+  --fondo-resaltado2-hover: #ffffff73;
+  --fondo-resaltado2-activo: #f9f8f0;
+  --text-base: #595959;
+  --text-resaltado: #000000;
+  --text-secundario: #787878;
+  --comando-fondo-marco: #e1d7cd;
+  --comando-fondo: #ebe6dc;
+}
+:root body.dark {
+  --fondo: #101010;
+  --fondo-elemento: #151515e6;
+  --fondo-elemento-resaltado: #1c1c1cb3;
+  --fondo-resaltado: #ffffff05;
+  --fondo-resaltado-activo: #ffffff10;
+  --fondo-resaltado2: #1e1e1e;
+  --fondo-resaltado2-hover: #3d3c3c;
+  --fondo-resaltado2-activo: #323232;
+  --text-base: #f5f5f5;
+  --text-resaltado: #FFFFFF;
+  --text-secundario: #BFBFBF;
+  --comando-fondo-marco: #141414;
+  --comando-fondo: #000;
+}</style>
     <script src="script.js"></script>
     <script src="Highlight.js"></script>
   </body>
