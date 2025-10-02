@@ -5,16 +5,16 @@ Contenidos
 */
 const content_conf_ajustes=`
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')" ontouchstart="openTap(this, 'Add')"></i>
+      <i class="add" onclick="openTap(this, 'Add')"></i>
       <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)" ontouchstart="abrirConfig(this)"></i>
+      <i class="configuracion" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')" ontouchstart="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
-        <div onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)" ontouchstart="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)" ontouchstart="delContent(this)"><i class="del"></i> Borrar</div>
+        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
+        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>`,
 
@@ -42,7 +42,7 @@ content_desplegable=`<div class="columna">
     `+content_conf_ajustes+`
     <div class="contenido">
       <div class="titulo">
-        <i class="arrow" onclick="desplegar(this)" ontouchstart="desplegar(this)"></i>
+        <i class="arrow" onclick="desplegar(this)"></i>
         <div contenteditable="true" onmouseup="actualizarBotonesFormato()">Desplegable</div>
       </div>
       <div class="desplegado" style="max-height: 0px; overflow: hidden;">
@@ -73,12 +73,22 @@ content_tabla=`<div class="columna">
   </div>
 </div>`,
 
+content_ecuacion=`<div class="columna">
+  <div class="content ecuacion" data-info='{"tipo": "ecuacion"}'>
+    `+content_conf_ajustes+`
+    <div class="contenido">
+      <div class="math"><span contenteditable="true"></span></div>
+      <div id="panel-elementos"></div>
+    </div>
+  </div>
+</div>`,
+
 content_iframe=`<div class="columna">
   <div class="content iframe" data-info='{"tipo": "iframe", "contenido": "", "loading": "", "allowfullscreen":false, "allow-scripts":false, "allow-same-origin":false, "allow-popups":false, "allow-presentation":false, "allow-modals":false}'>
     `+content_conf_ajustes+`
     <div class="contenido">
       <!-- Contenido aquí -->
-      <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+      <div class="preview" onclick="openTap(this, 'Contenido')">
         <div class="icon"></div>
         <p>Iframe</p>
       </div>
@@ -91,7 +101,7 @@ content_imagen=`<div class="columna">
     `+content_conf_ajustes+`
     <div class="contenido">
       <!-- Contenido aquí -->
-      <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+      <div class="preview" onclick="openTap(this, 'Contenido')">
         <div class="icon"></div>
         <p>Imagen</p>
       </div>
@@ -104,7 +114,7 @@ content_audio=`<div class="columna">
     `+content_conf_ajustes+`
     <div class="contenido">
       <!-- Contenido aquí -->
-      <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+      <div class="preview" onclick="openTap(this, 'Contenido')">
         <div class="icon"></div>
         <p>Audio</p>
       </div>
@@ -117,7 +127,7 @@ content_video=`<div class="columna">
     `+content_conf_ajustes+`
     <div class="contenido">
       <!-- Contenido aquí -->
-      <div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+      <div class="preview" onclick="openTap(this, 'Contenido')">
         <div class="icon"></div>
         <p>Video</p>
       </div>
@@ -148,7 +158,7 @@ content_code=`<div class="columna">
 content_custom=`<div class="columna">
   <div class="content custom" data-info='{"tipo": "custom"}'>
     `+content_conf_ajustes+`
-    <div class="contenido" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')">
+    <div class="contenido" onclick="openTap(this, 'Contenido')">
 <style>
   #conten .seccion .content.custom .contenido {padding: 20px}
   .content.custom .contenido .preview {
@@ -893,7 +903,7 @@ function AccionContenidoTap(boton, event) {
       const url = data.get("iframe-url")?.trim();
       if (!url) {
         info.contenido = "";
-        contenidoDiv.innerHTML = `<div class="preview" onclick="openTap(this, 'Contenido')" ontouchstart="openTap(this, 'Contenido')"><div class="icon"></div><p>Iframe</p></div>`;
+        contenidoDiv.innerHTML = `<div class="preview" onclick="openTap(this, 'Contenido')"><div class="icon"></div><p>Iframe</p></div>`;
       } else {
         try { new URL(url); } catch { alert("La URL proporcionada no es válida."); return; }
         info.contenido = url;
@@ -915,7 +925,7 @@ function AccionContenidoTap(boton, event) {
       marcador.setAttribute("data-info", JSON.stringify(info));
       contenidoDiv.innerHTML = tipo
         ? `<img src="${tipo === "base64" ? data.get("base64") : data.get("img-" + tipo)}">`
-        : `<div class="preview" onclick="openTap(this,'Contenido')" ontouchstart="openTap(this,'Contenido')"><div class="icon"></div><p>Imagen</p></div>`;
+        : `<div class="preview" onclick="openTap(this,'Contenido')"><div class="icon"></div><p>Imagen</p></div>`;
       break;
     }
     case "audio": {
@@ -924,7 +934,7 @@ function AccionContenidoTap(boton, event) {
       marcador.setAttribute("data-info", JSON.stringify(info));
       contenidoDiv.innerHTML = tipo
         ? `<audio controls><source src="${tipo === "base64" ? data.get("base64") : data.get("audio-" + tipo)}" type="audio/mpeg"></audio>`
-        : `<div class="preview" onclick="openTap(this,'Contenido')" ontouchstart="openTap(this,'Contenido')"><div class="icon"></div><p>Audio</p></div>`;
+        : `<div class="preview" onclick="openTap(this,'Contenido')"><div class="icon"></div><p>Audio</p></div>`;
       break;
     }
     case "video": {
@@ -933,7 +943,7 @@ function AccionContenidoTap(boton, event) {
       marcador.setAttribute("data-info", JSON.stringify(info));
       contenidoDiv.innerHTML = tipo
         ? `<video controls><source src="${tipo === "base64" ? data.get("base64") : data.get("video-" + tipo)}" type="video/mp4"></video>`
-        : `<div class="preview" onclick="openTap(this,'Contenido')" ontouchstart="openTap(this,'Contenido')"><div class="icon"></div><p>Video</p></div>`;
+        : `<div class="preview" onclick="openTap(this,'Contenido')"><div class="icon"></div><p>Video</p></div>`;
       break;
     }
     case "code": {
@@ -998,6 +1008,9 @@ function addContent(ContTipo) {
       break;
     case "tabla":
       marcador.closest('.seccion').insertAdjacentHTML('afterend', `<div class="seccion">`+content_tabla+`</div>`);
+      break;
+    case "ecuacion":
+      marcador.closest('.seccion').insertAdjacentHTML('afterend', `<div class="seccion">`+content_ecuacion+`</div>`);
       break;
     case "iframe":
       marcador.closest('.seccion').insertAdjacentHTML('afterend', `<div class="seccion">`+content_iframe+`</div>`);
@@ -1168,17 +1181,295 @@ function cambiarColor(formato, color) {
   document.execCommand(formato, false, color);
   actualizarBotonesFormato();
 }
-function insertarEnlace() {
-  let selection = window.getSelection();
-  let existingLink = selection.anchorNode.parentElement.tagName === "A" ? selection.anchorNode.parentElement : null;
-  if (existingLink) {
-    if (confirm("¿Quieres eliminar el enlace?")) {document.execCommand("unlink", false, null);}
-  } else {
-    let url = prompt("Por favor, introduce la URL del enlace:", "http://");
-    if (url) {document.execCommand("createLink", false, url);}
+
+// Añadir estructura
+function insertarEstructuras(tipo) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+
+  let html = "";
+
+  switch (tipo) {
+    case "fraccion":
+      html = `
+        <div class="dist dist-fraccion">
+          <span contenteditable="true">a</span>
+          <span contenteditable="true">b</span>
+        </div>`;
+      break;
+
+    case "radical":
+      html = `
+        <div class="dist dist-radical">
+          <span contenteditable="true">n</span>
+          <span contenteditable="true">X</span>
+        </div>`;
+      break;
+
+    case "indices":
+      html = `
+        <div class="dist dist-indices">
+          <span contenteditable="true">X</span>
+          <div class="indices">
+            <span contenteditable="true">c</span>
+            <span contenteditable="true">b</span>
+          </div>
+        </div>`;
+      break;
+
+    case "barra":
+      html = `
+        <div class="dist dist-barra">
+          <span contenteditable="true">X</span>
+        </div>`;
+      break;
+
+    case "acento":
+      html = `
+        <div class="dist dist-acento">
+          <span contenteditable="true">X</span>
+        </div>`;
+      break;
+
+    case "2-pisos":
+      html = `
+        <div class="dist dist-2-pisos">
+          <span contenteditable="true">lim</span>
+          <span contenteditable="true">a → b</span>
+        </div>`;
+      break;
+
+    case "3-pisos":
+      html = `
+        <div class="dist dist-3-pisos">
+          <span contenteditable="true">a</span>
+          <span contenteditable="true">∩</span>
+          <span contenteditable="true">b</span>
+        </div>`;
+      break;
   }
-  actualizarBotonesFormato();
+
+  if (html) {
+    // Crear nodo desde el string HTML
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+    const nodo = temp.firstElementChild;
+
+    // Insertar en la posición del cursor
+    range.deleteContents();
+    range.insertNode(nodo);
+
+    // Mover cursor después del nodo insertado
+    range.setStartAfter(nodo);
+    range.setEndAfter(nodo);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
 }
+
+// Incertar caracteres especiales
+function insertarCaracter(caracter) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return; // No hay selección
+
+  const range = sel.getRangeAt(0);
+  range.deleteContents(); // elimina selección si hay
+  range.insertNode(document.createTextNode(caracter));
+
+  // mover el cursor después del caracter insertado
+  range.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+
+
+
+
+
+/*
+-----------------------------------------
+Insertar enlace
+-----------------------------------------
+*/
+let wrapperActual = null; // Elemento temporal con la selección (para editar o deshacer)
+let cerrarMenuClickHandler = null; // Función para detectar click fuera y cerrar
+
+const enlaceTrigger = document.getElementById('enlaces'); /* Boton de accion */
+const menu = document.getElementById('linkMenu'); /* Ventana de opciones */
+const urlInput = document.getElementById('urlInput'); /* Input de URL*/
+const btnQuitar = document.getElementById('btnQuitarEnlace'); /* Boton de borrar link */
+
+// Comprueba que el elemento seleccionado sirva para poner enlaces
+function comprobarActivacion() {
+  // Selección actual
+  const sel = window.getSelection();
+  // Si no hay selección activa, deshabilita y termina
+  if (!sel.rangeCount) {enlaceTrigger.classList.add('disabled'); return;}
+
+  // Nodo común de la selección
+  let container = sel.getRangeAt(0).commonAncestorContainer;
+  if (container.nodeType === 3) container = container.parentNode;
+
+  // Habilita si está dentro de .contenido y (hay texto seleccionado o está dentro de un enlace)
+  if (container.closest('.contenido') && (!sel.isCollapsed || container.closest('a'))) {
+    enlaceTrigger.classList.remove('disabled');
+  } else {
+    enlaceTrigger.classList.add('disabled');
+  }
+}
+// Ejecuta comprobarActivacion en cada cambio de selección (Definir en el cambio de modo para desactivar mientras no esta en modo edicion)
+document.addEventListener('selectionchange', comprobarActivacion);
+
+/* Abrir menú y reajustar seleccion */
+function abrirMenuEnlace(event) {
+  event.preventDefault(); // Evitar acción por defecto del clic
+  if (enlaceTrigger.classList.contains('disabled')) return; // Salir si botón deshabilitado
+
+  const sel = window.getSelection(); // Obtener selección actual
+  if (!sel.rangeCount) return;       // Salir si no hay selección
+
+  let rango = sel.getRangeAt(0).cloneRange(); // Clonar el rango seleccionado
+
+  // Si cursor dentro de <a> colapsada -> seleccionar todo <a>
+  let nodo = rango.startContainer;
+  let posibleA = nodo.nodeType === 3 ? nodo.parentElement.closest('a') : nodo.closest('a');
+  if (posibleA && sel.isCollapsed) {
+    rango = document.createRange();
+    rango.selectNodeContents(posibleA);
+  }
+
+  // Recortar espacios al inicio
+  while (!rango.collapsed && rango.startContainer.nodeType === 3) {
+    const text = rango.startContainer.textContent;
+    let i = rango.startOffset;
+    while (i < text.length && /\s/.test(text[i])) i++;
+    if (i !== rango.startOffset) rango.setStart(rango.startContainer, i);
+    else break;
+  }
+  // Recortar espacios al final
+  while (!rango.collapsed && rango.endContainer.nodeType === 3) {
+    const text = rango.endContainer.textContent;
+    let j = rango.endOffset - 1;
+    while (j >= 0 && /\s/.test(text[j])) j--;
+    if (j + 1 !== rango.endOffset) rango.setEnd(rango.endContainer, j + 1);
+    else break;
+  }
+  if (rango.collapsed) return;
+
+  // Expandir a elementos inline (cualquier elemento con display inline...)
+  ['startContainer', 'endContainer'].forEach((prop, idx) => {
+    let n = rango[prop];
+    if (n.nodeType === 3) n = n.parentElement;
+    while (n && n.nodeType === 1) {
+      const d = getComputedStyle(n).display;
+      if (d && d.startsWith('inline')) {
+        if (idx === 0) rango.setStartBefore(n);
+        else rango.setEndAfter(n);
+        break;
+      }
+      n = n.parentElement;
+    }
+  });
+
+  // Aplicar selección y crear wrapper provisional
+  sel.removeAllRanges();
+  sel.addRange(rango);
+
+  const contenido = rango.extractContents();
+  const wrapper = document.createElement('a');
+  wrapper.className = 'select';
+  wrapper.tabIndex = -1;
+  wrapper.appendChild(contenido);
+  rango.insertNode(wrapper);
+  wrapperActual = wrapper;
+
+  // Posicionar menú y llenar input
+  const rect = wrapper.getBoundingClientRect();
+  menu.style.top = `${rect.bottom + window.scrollY}px`;
+  menu.style.left = `${Math.max(6, rect.left + window.scrollX)}px`;
+  menu.style.display = 'flex';
+  urlInput.value = (wrapper.querySelector('a') && wrapper.querySelector('a').getAttribute('href')) || '';
+  btnQuitar.style.display = 'inline-block';
+
+  // Evento click fuera
+  cerrarMenuClickHandler = (e) => {
+    if (!menu.contains(e.target) && e.target !== enlaceTrigger &&
+        !enlaceTrigger.contains(e.target) && !wrapper.contains(e.target)) {
+      abortarOperacion();
+    }
+  };
+  document.addEventListener('click', cerrarMenuClickHandler);
+}
+
+/* Abortar: devolver contenido y cerrar */
+function abortarOperacion() {
+  if (!wrapperActual) { cerrarFormulario(); return; }
+  const parent = wrapperActual.parentNode;
+  while (wrapperActual.firstChild) parent.insertBefore(wrapperActual.firstChild, wrapperActual);
+  parent.removeChild(wrapperActual);
+  wrapperActual = null;
+  cerrarFormulario();
+}
+
+/* Aplicar enlace (convertir wrapper en <a href="...">) */
+function aplicarEnlace(event) {
+  event.preventDefault();
+  if (!wrapperActual) { cerrarFormulario(); return; }
+
+  const url = (urlInput.value || '').trim();
+  if (!url) { abortarOperacion(); return; }
+
+  Array.from(wrapperActual.querySelectorAll('a')).forEach(a => {
+    while (a.firstChild) a.parentNode.insertBefore(a.firstChild, a);
+    a.remove();
+  });
+
+  wrapperActual.setAttribute('href', url);
+  wrapperActual.setAttribute('target', '_blank');
+  wrapperActual.classList.remove('select');
+
+  const sel = window.getSelection();
+  const r = document.createRange();
+  r.setStartAfter(wrapperActual);
+  r.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(r);
+
+  wrapperActual = null;
+  cerrarFormulario();
+}
+
+/* Quitar enlaces dentro del wrapper y devolver contenido */
+function quitarEnlaces() {
+  if (!wrapperActual) { cerrarFormulario(); return; }
+
+  Array.from(wrapperActual.querySelectorAll('a')).forEach(a => {
+    const frag = document.createDocumentFragment();
+    while (a.firstChild) frag.appendChild(a.firstChild);
+    a.parentNode.replaceChild(frag, a);
+  });
+
+  const parent = wrapperActual.parentNode;
+  while (wrapperActual.firstChild) parent.insertBefore(wrapperActual.firstChild, wrapperActual);
+  parent.removeChild(wrapperActual);
+
+  wrapperActual = null;
+  cerrarFormulario();
+}
+
+/* Cerrar UI y quitar evento */
+function cerrarFormulario() {
+  menu.style.display = 'none';
+  urlInput.value = '';
+  btnQuitar.style.display = 'none';
+  if (cerrarMenuClickHandler) {
+    document.removeEventListener('click', cerrarMenuClickHandler);
+    cerrarMenuClickHandler = null;
+  }
+}
+
 
 
 
