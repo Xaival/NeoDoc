@@ -1,34 +1,43 @@
 /* Estilos pagina */
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Noto+Sans+Math&display=swap');
 :root body {
 	--fondo: #EBE7E0;
-	--fondo-elemento: #dfdbd3e6;
-	--fondo-elemento-resaltado: #c9c5bcb3;
-	--fondo-resaltado: #00000005;
-	--fondo-resaltado-activo: #00000010;
-	--fondo-resaltado2: #ffffff40;
-	--fondo-resaltado2-hover: #ffffff73;
-	--fondo-resaltado2-activo: #f9f8f0;
+
+	--elemento-opaco: #e5e0d7;
+	--elemento-fondo: #64503212;
+	--elemento-fondo-hover: #64503226;
+
+	--button: #dcd2c8b3;
+	--button-opaco: #f9f8f0;
+	--button-opaco-hover: #c1b9aa;
+	--button-opaco-press: #a39988;
+	--button-opaco-active: #f9f8f0;
+
 	--text-base: #595959;
 	--text-resaltado: #000000;
 	--text-secundario: #787878;
-	--comando-fondo-marco: #e1d7cd;
-	--comando-fondo: #ebe6dc;
+	--code-fondo: #ebe6dc;
+	--code-marco: #e1d7cd;
 	--color-icon: brightness(0);
 }
 :root body.dark {
 	--fondo: #101010;
-	--fondo-elemento: #151515e6;
-	--fondo-elemento-resaltado: #1c1c1cb3;
-	--fondo-resaltado: #ffffff05;
-	--fondo-resaltado-activo: #ffffff10;
-	--fondo-resaltado2: #1e1e1e;
-	--fondo-resaltado2-hover: #3d3c3c;
-	--fondo-resaltado2-activo: #323232;
+
+	--elemento-opaco: #171717;
+	--elemento-fondo: #ffffff08;
+	--elemento-fondo-hover: #ffffff0d;
+
+	--button: #323232b3;
+	--button-opaco: #696763;
+	--button-opaco-hover: #333333;
+	--button-opaco-press: #222222;
+	--button-opaco-active: #606060;
+
 	--text-base: #f5f5f5;
 	--text-resaltado: #FFFFFF;
 	--text-secundario: #BFBFBF;
-	--comando-fondo-marco: #141414;
-	--comando-fondo: #000;
+	--code-fondo: #000;
+	--code-marco: #141414;
 	--color-icon: brightness(0) invert(1);
 }
 * {
@@ -38,6 +47,7 @@
 	font-size: min(16px, max(2vw, 15px));
 	line-height: 1.5em;
 	transition: all 0.2s ease;
+	scrollbar-color: var(--text-secundario) transparent;
 }
 body {
 	background-color: var(--fondo);
@@ -50,7 +60,6 @@ body {
 	font-family: Arial;
 }
 *[contenteditable="true"] {outline: 0;}
-
 body.View #menu-lateral .configuracion a[title="Configuracion"],
 body.Edit #menu-lateral .configuracion a[title="Editar"],
 body.View #menu-lateral .configuracion a[title="Historial"],
@@ -76,7 +85,7 @@ body.View #conten .seccion .conf {display: none;}
 	transition: width 0.5s ease, padding 0.5s ease;
 }
 #menu-lateral .btn-desplegable  {
-	background-color: var(--fondo-elemento);
+	background-color: var(--elemento-opaco);
 	width: 30px;
 	height: 30px;
 	border-radius: 8px;
@@ -89,13 +98,13 @@ body.View #conten .seccion .conf {display: none;}
 	justify-content: center;
 	align-items: center;
 }
-#menu-lateral .btn-desplegable:hover {background-color: var(--fondo-elemento-resaltado);}
+#menu-lateral .btn-desplegable:hover {background-color: var(--elemento-fondo-hover);}
 #menu-lateral .btn-desplegable i   {
   width: 15px;
   height: 15px;
 }
 #menu-lateral .panel-menu  {
-	background-color: var(--fondo-elemento);
+	background-color: var(--elemento-opaco);
 	width: 100%;
 	height: 100%;
 	padding: 15px;
@@ -111,7 +120,7 @@ body.View #conten .seccion .conf {display: none;}
 }
 #menu-lateral .indice .nombre {margin-bottom: 30px;}
 body.Edit #menu-lateral .indice .nombre {
-	background-color: var(--fondo-resaltado-activo);
+	background-color: var(--elemento-fondo);
 	padding: 5px;
 	border-radius: 8px;
 	position: relative;
@@ -165,7 +174,7 @@ body.Edit #menu-lateral .indice .nombre:hover i.edit {
 	justify-content: center;
 	align-items: center;
 }
-#menu-lateral .configuracion a:hover {background-color: var(--fondo-elemento-resaltado);}
+#menu-lateral .configuracion a:hover {background-color: var(--elemento-fondo-hover);}
 #menu-lateral .configuracion a i {
 	background-position: center;
 	background-repeat: no-repeat;
@@ -217,6 +226,7 @@ body.Edit #menu-lateral .indice .nombre:hover i.edit {
 }
 
 
+
 /* ----------------------------------- */
 /* Cuerpo */
 .cuerpo {
@@ -228,22 +238,6 @@ body.Edit #menu-lateral .indice .nombre:hover i.edit {
 	flex-direction: column;
 	align-items: center;
 	transition: all 0s;
-}
-.cuerpo::-webkit-scrollbar {
-  background-color: transparent;
-  width: 15px;
-  height: 15px;
-}
-.cuerpo::-webkit-scrollbar-track {
-  border-radius: 20px;
-}
-.cuerpo::-webkit-scrollbar-thumb {
-  background: var(--text-secundario);
-  border: 3px solid var(--fondo);
-  border-radius: 20px;
-}
-.cuerpo::-webkit-scrollbar-thumb:hover {
-  opacity: .75;
 }
 #conten {
 	width: 100%;
@@ -263,9 +257,10 @@ body.Edit #menu-lateral .indice .nombre:hover i.edit {
 	z-index: 1;
 	user-select: none;
 }
+.menu-superior.oculto {pointer-events: none; opacity: 0;}
 body.View .menu-superior {height: 20px;}
 .menuEdicion {
-	background: var(--fondo-elemento);
+	background: var(--elemento-opaco);
 	width: max-content;
 	max-width: 100%;
 	margin: 0 auto;
@@ -275,11 +270,8 @@ body.View .menu-superior {height: 20px;}
 	flex-wrap: wrap;
 	align-items: center;
 }
-.menuEdicion.oculto {pointer-events: none; cursor: not-allowed;}
-.menuEdicion.oculto .opcion {opacity: .5;}
-.menuEdicion.oculto .opcion i {filter: var(--color-icon)!important;}
 body.View .menuEdicion {opacity: 0; pointer-events: none;}
-.menuEdicion .opcion   {
+.menuEdicion .opcion {
 	height: 35px;
 	aspect-ratio: 1/1;
 	padding: 5px;
@@ -289,8 +281,11 @@ body.View .menuEdicion {opacity: 0; pointer-events: none;}
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+    background: transparent;
+    border: 0px;
 }
-.menuEdicion .opcion:hover {background: var(--fondo-elemento-resaltado);}
+.menuEdicion .opcion:hover {background: var(--elemento-fondo-hover);}
+.menuEdicion label.disabled {opacity: .5; pointer-events: none;}
 .menuEdicion .opcion svg, .menuEdicion .opcion i {
   width: 21px;
   aspect-ratio: 1/1;
@@ -303,6 +298,7 @@ body.View .menuEdicion {opacity: 0; pointer-events: none;}
 	height: 25px;
 	margin: 0 5px;
 	border-color: var(--text-secundario);
+	transition: all 0s;
 }
 .menuEdicion label {position: relative;}
 .menuEdicion label input {
@@ -332,6 +328,15 @@ body.View .menuEdicion {opacity: 0; pointer-events: none;}
   @media (min-width: 900px) and (max-width: 1350px) {
     #menu-lateral.active ~ .cuerpo .menu-superior {padding-left: 0;}
   }
+}
+@media (max-width: 400px) {
+	.menuEdicion {justify-content: center;}
+	.menuEdicion hr {
+		height: 0px;
+		width: 100%;
+		opacity: .25;
+		margin: 5px 0;
+	}
 }
 
 
@@ -394,33 +399,18 @@ body.View .menuEdicion {opacity: 0; pointer-events: none;}
 	word-wrap: break-word;
 }
 body.Edit #conten .seccion .contenido {
-	background-color: var(--fondo-resaltado);
+	background-color: var(--elemento-fondo);
 	max-width: calc(100% - 45px);
 	border-radius: 8px;
 	min-height: 44px;
 	position: relative;
 	color: var(--text-base);
 }
-body.Edit #conten .seccion .contenido ol,
-body.Edit #conten .seccion .contenido ul {margin-left: 20px;}
-body.Edit #conten .seccion .content:hover .contenido {background-color: var(--fondo-resaltado-activo);}
+#conten .seccion .contenido ol,
+#conten .seccion .contenido ul {margin-left: 20px;}
+body.Edit #conten .seccion .content:hover > .contenido {background-color: var(--elemento-fondo-hover);}
 #conten .seccion .contenido {overflow-x: auto;}
-#conten .seccion .contenido::-webkit-scrollbar {
-  background-color: transparent;
-  width: 12px;
-  height: 12px;
-}
-#conten .seccion .contenido::-webkit-scrollbar-track {
-  border-radius: 20px;
-}
-#conten .seccion .contenido::-webkit-scrollbar-thumb {
-  background: var(--text-secundario);
-  border: 3px solid var(--fondo);
-  border-radius: 20px;
-}
-#conten .seccion .contenido::-webkit-scrollbar-thumb:hover {
-  opacity: .75;
-}
+
 #conten .seccion .contenido span[style*="background-color"],
 #conten .seccion .contenido font[style*="background-color"] {border-radius: 5px; padding: 2.5px;}
 #conten .seccion .conf {
@@ -442,7 +432,7 @@ body.Edit #conten .seccion .content:hover .contenido {background-color: var(--fo
 #conten .seccion .conf > i.drag {cursor: grab}
 #conten .seccion .conf > i.drag:active {cursor: grabbing}
 #conten .seccion .ajustes {
-	background-color: var(--fondo-elemento);
+	background-color: var(--elemento-opaco);
 	padding: 4px;
 	border-radius: 5px;
 	position: absolute;
@@ -459,10 +449,11 @@ body.Edit #conten .seccion .content:hover .contenido {background-color: var(--fo
 	position: relative;
 	z-index: 1;
 	display: block;
+    filter: var(--color-icon);
 }
 #conten .seccion .ajustes i:hover {opacity: 1;}
 #conten .seccion .ajustes .configura {
-	background-color: var(--fondo-elemento);
+	background-color: var(--elemento-opaco);
 	width: 125px;
 	padding: 5px;
 	border-radius: 8px;
@@ -473,7 +464,8 @@ body.Edit #conten .seccion .content:hover .contenido {background-color: var(--fo
 	display: none;
 }
 #conten .seccion .content.texto .ajustes .configura div[onclick="openTap(this, 'Contenido')"],
-#conten .seccion .content.desplegable .ajustes .configura div[onclick="openTap(this, 'Contenido')"] {display: none;}
+#conten .seccion .content.desplegable .ajustes .configura div[onclick="openTap(this, 'Contenido')"],
+#conten .seccion .content.ecuacion .ajustes .configura div[onclick="openTap(this, 'Contenido')"] {display: none;}
 #conten .seccion .ajustes.openConfig .configura {
 	display: block;
 	user-select: none;
@@ -487,7 +479,7 @@ body.Edit #conten .seccion .content:hover .contenido {background-color: var(--fo
 	gap: 8px;
 }
 #conten .seccion .ajustes .configura > div:hover {
-  background-color: var(--fondo-elemento-resaltado);
+  background-color: var(--elemento-fondo-hover);
   color: var(--text-resaltado);
 }
 #conten .seccion .ajustes .configura > div:hover i {opacity: 1;}
@@ -496,6 +488,9 @@ body.Edit #conten .seccion .content:hover .contenido {background-color: var(--fo
   #conten .seccion.columnas {gap: 0px; flex-direction: column;}
   #conten .seccion.columnas .columna {width: 100%;}
 }
+
+
+/* Texto */
 
 
 /* Titulo */
@@ -523,7 +518,7 @@ body.View #conten .content.titulo .contenido .titulo {top: -15px;}
 }
 #conten .desplegable > .contenido > .titulo i.arrow {
 	width: 1em;
-	height: 1em;
+	height: .8em;
 	opacity: .7;
 	cursor: pointer;
 	transform: rotate(90deg);
@@ -538,6 +533,164 @@ body.View #conten .content.titulo .contenido .titulo {top: -15px;}
 #conten .content.tabla table td {padding: 0.75em; border-bottom: 1px solid #a1a1a1; min-width: 50px;}
 #conten .content.tabla table th {border-bottom: 2px solid #a1a1a1;}
 body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {background-color: #7d7d7d1a;}
+
+/* Ecuacion */
+#conten .content.ecuacion .contenido .math {
+	font-family: "Electrolize", sans-serif;
+	font-size: 1.5em;
+	font-weight: 400;
+	font-style: normal;
+	display: flex;
+	align-items: center;
+	gap: 2px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+body.Edit #conten .content.ecuacion .contenido .math {border: 5px solid var(--text-base);}
+/* Panel de elementos */
+#conten .content.ecuacion .contenido #panel-elementos {
+	display: none;
+	max-height: 300px;
+    overflow-y: auto;
+    padding: 0 10px;
+}
+#conten .content.ecuacion .contenido #panel-elementos::-webkit-scrollbar {width: 12px; height: 12px;}
+body.Edit #conten .content.ecuacion .contenido #panel-elementos {display: block;}
+#conten .content.ecuacion .contenido #panel-elementos .elementos {
+	display: flex;
+    flex-wrap: wrap;
+	gap: 5px;
+}
+#conten .content.ecuacion .contenido #panel-elementos p {
+	width: 100%;
+	margin: 10px 0 5px 0;
+	font-weight: 600;
+	color: var(--text-base);
+	font-size: 1.1em;
+	padding-top: 10px;
+}
+#conten .content.ecuacion .contenido #panel-elementos button {
+	font-family: "Electrolize", sans-serif;
+    font-size: 1.5em;
+    font-weight: 400;
+    height: 40px;
+    width: 40px;
+    background: var(--elemento-fondo);
+    color: var(--text-base);
+    border-radius: 5px;
+    border: 0px;
+	cursor: pointer;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#conten .content.ecuacion .contenido #panel-elementos button:hover {background: var(--elemento-fondo-hover);}
+#conten .content.ecuacion .contenido #panel-elementos .estructuras button {
+    height: 60px;
+    width: 60px;
+}
+/* Formulas */
+#conten .content.ecuacion .dist  {
+	margin: 5px;
+	position: relative;
+}
+#conten .content.ecuacion span  {text-align: center;}
+body.Edit #conten .content.ecuacion span  {
+	background: #4facff73;
+	min-width: 20px;
+	min-height: 1.5em;
+	display: block;
+}
+/* Formulas - Division */
+#conten .content.ecuacion .dist-fraccion {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	padding: 5px;
+}
+#conten .content.ecuacion .dist-fraccion > span:first-child::after  {
+	content: "";
+	background: var(--text-base);
+	width: 100%;
+	height: 1.5px;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	display: block;
+    transform: translateY(-1px);
+}
+/* Formulas - Raiz */
+#conten .content.ecuacion .dist-radical {
+	display: flex;
+	align-items: flex-start;
+	gap: 5px;
+}
+#conten .content.ecuacion .dist-radical > span:first-child  {font-size: .7em;}
+#conten .content.ecuacion .dist-radical > span:last-child  {
+	min-width: 1.2em;
+	position: relative;
+	border-top: 1.5px solid var(--text-base);
+	border-left: 1.5px solid var(--text-base);
+}
+#conten .content.ecuacion .dist-radical > span:last-child::before  {
+	content: "";
+	background: var(--text-base);
+	width: 1px;
+	height: 50%;
+	position: absolute;
+	bottom: 0;
+	right: 100%;
+	transform: rotate(-25deg);
+	transform-origin: bottom right;
+}
+/* Formulas - Elevado */
+#conten .content.ecuacion .dist-indices {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+}
+#conten .content.ecuacion .dist-indices .indices  {
+	display: flex;
+	flex-direction: column;
+	gap: .25em;
+}
+#conten .content.ecuacion .dist-indices .indices > span {font-size: .7em;}
+/* Formulas - Negado */
+#conten .content.ecuacion .dist-barra {padding: 0 2px;}
+#conten .content.ecuacion .dist-barra::before {
+	content: "";
+	background: var(--text-base);
+	width: 100%;
+	height: 1.5px;
+	position: absolute;
+	top: 0%;
+	left: 0;
+	display: block;
+}
+/* Formulas - Acentuado */
+#conten .content.ecuacion .dist-acento::before {
+	content: "";
+	width: 100%;
+	height: 5px;
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	display: block;
+    filter: var(--color-icon);
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -2 100 52' preserveAspectRatio='none'%3E%3Cpolyline points='5,45 50,5 95,45' fill='none' stroke='currentColor' stroke-width='10' stroke-linecap='round' /%3E%3C/svg%3E");
+	background-size: 100% 100%;
+}
+/* Formulas - 2 niveles y 3 niveles */
+#conten .content.ecuacion .dist-2-pisos,
+#conten .content.ecuacion .dist-3-pisos {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+#conten .content.ecuacion .dist-2-pisos > span:last-child {font-size: .7em;}
+#conten .content.ecuacion .dist-3-pisos > span:first-child,
+#conten .content.ecuacion .dist-3-pisos > span:last-child {font-size: .7em;}
 
 /* Multimedia */
 #conten .content.audio audio {width: 500px; max-width: 100%;}
@@ -555,7 +708,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 
 /* Codigo */
 #conten .content.code .contenido .Codigo {
-	background: var(--comando-fondo-marco);
+	background: var(--code-marco);
 	width: max(min(100% - min(40px, max(8vw, 16px)), 500px), 75%);
 	max-width: 930px;
 	margin-bottom: 1em;
@@ -570,7 +723,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 #conten .content.code .Codigo .titulo {padding: 10px 20px; color: var(--text-base); font-weight: 600;}
 #conten .content.code .Codigo .copy {position: relative;}
 #conten .content.code .Codigo button {
-	background-color: var(--fondo-elemento);
+	background-color: var(--button);
 	border-radius: 10px;
 	margin: 3px 5px;
 	padding: 5px 5px;
@@ -587,7 +740,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	transition: transform .2s ease, opacity .2s ease;
 }
 #conten .content.code .Codigo:hover button {display: flex;}
-#conten .content.code .Codigo .copy button:hover {opacity: .8;}
+#conten .content.code .Codigo .copy button:hover {opacity: .7;}
 #conten .content.code .Codigo .copy button:active {transform: scale(.95);}
 #conten .content.code .Codigo .copy button.copying:hover {opacity: 1;}
 #conten .content.code .Codigo .copy button::before {
@@ -600,7 +753,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 #conten .content.code .Codigo .copy button.copying::before {content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' stroke='%23C3C5D5' fill='none' stroke-width='2' viewBox='0 0 24 24' stroke-linecap='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");}
 #conten .content.code .Codigo pre {margin: 0;}
 #conten .content.code .Codigo pre > .hljs {
-	background: var(--comando-fondo);
+	background: var(--code-fondo);
 	min-height: 150px;
 	margin: 0;
 	padding: 30px 20px;
@@ -611,24 +764,14 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	tab-size: 3;
 }
 #conten .content.code .Codigo pre > .hljs {display: block; overflow-x: auto; padding: 1em;}
-#conten .content.code .Codigo pre > .hljs::-webkit-scrollbar {
-	background-color: transparent;
-	width: 12px;
-	height: 12px;
-}
-#conten .content.code .Codigo pre > .hljs:-webkit-scrollbar-track {border-radius: 20px;}
-#conten .content.code .Codigo pre > .hljs::-webkit-scrollbar-thumb {
-	background: var(--text-secundario);
-	border: 3px solid var(--fondo);
-	border-radius: 20px;
-}
+#conten .content.code .Codigo pre > .hljs::-webkit-scrollbar {width: 12px; height: 12px;}
 #conten .content.code .Codigo pre .hljs-emphasis {font-style: italic}
 #conten .content.code .Codigo pre .hljs-strong {font-weight: 700}
 #conten .content.code .Codigo pre .hljs-comment, .hljs-quote {color: #969896}
 #conten .content.code .Codigo pre .hljs-deletion, .hljs-name, .hljs-regexp, .hljs-selector-class, .hljs-selector-id, .hljs-tag, .hljs-template-variable, .hljs-variable {color: #d54e53}
 #conten .content.code .Codigo pre .hljs-built_in, .hljs-link, .hljs-literal, .hljs-meta, .hljs-number, .hljs-params, .hljs-type {color: #e78c45}
 #conten .content.code .Codigo pre .hljs-attribute {color: #e7c547}
-#conten .content.code .Codigo pre .hljs-addition, .hljs-bullet, .hljs-string, .hljs-symbol {color: #b9ca4a}
+#conten .content.code .Codigo pre .hljs-addition, .hljs-bullet, .hljs-string, .hljs-symbol {color: #a6bf48}
 #conten .content.code .Codigo pre .hljs-section, .hljs-title {color: #7aa6da}
 #conten .content.code .Codigo pre .hljs-keyword, .hljs-selector-tag {color: #c397d8}
 #conten .content.code .Codigo .leyenda {padding: 10px 20px; color: var(--text-secundario);}
@@ -659,7 +802,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	display: block;
 }
 #menuTap > *:not(.popup-backdrop) {
-	background-color: var(--fondo-elemento);
+	background-color: var(--elemento-opaco);
 	width: 500px;
 	max-width: 100%;
 	height: 525px;
@@ -717,7 +860,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 #menuTap .info > div {margin-bottom: 20px;}
 #menuTap .info .contenido {display: flex; flex-direction: column; gap: 8px;}
 #menuTap .info .contenido > p {
-	background-color: var(--fondo-resaltado);
+	background-color: var(--elemento-fondo);
 	padding: 10px;
 	border-radius: 8px;
 	cursor: pointer;
@@ -725,7 +868,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	align-items: center;
 	gap: 15px;
 }
-#menuTap .info .contenido > p:hover {background-color: var(--fondo-resaltado-activo);}
+#menuTap .info .contenido > p:hover {background-color: var(--elemento-fondo-hover);}
 #menuTap .info .contenido i {
 	width: 20px;
 	height: 20px;
@@ -733,14 +876,14 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 }
 #menuTap .info .distribucion {display: flex; flex-wrap: wrap; gap: 5px;}
 #menuTap .info .distribucion > p {
-	background-color: var(--fondo-resaltado);
+	background-color:var(--elemento-fondo);
 	padding: 10px;
 	border-radius: 8px;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 }
-#menuTap .info .distribucion > p:hover {background-color: var(--fondo-resaltado-activo);}
+#menuTap .info .distribucion > p:hover {background-color: var(--elemento-fondo-hover);}
 #menuTap .info .distribucion i {
 	width: 30px;
 	height: 30px;
@@ -764,15 +907,15 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
     text-align: right;
 }
 #menuTap .ContenidoTap .info form button {
-	background-color: var(--fondo-resaltado2-activo);
+	background-color: var(--button-opaco);
 	padding: .25em 10px;
 	border-radius: 5px;
 	cursor: pointer;
     border: 0;
 	color: var(--text-resaltado);
 }
-#menuTap .ContenidoTap .info form button:hover {background-color: var(--fondo-resaltado2-hover);}
-#menuTap .ContenidoTap .info form button:active {background-color: var(--fondo-resaltado2);}
+#menuTap .ContenidoTap .info form button:hover {background-color: var(--button-opaco-hover);}
+#menuTap .ContenidoTap .info form button:active {background-color: var(--button-opaco-press);}
 
 /* Para titulos */
 #menuTap .ContenidoTap .info .form_titulo #selector-nivel {
@@ -782,7 +925,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	gap: 10px;
 }
 #menuTap .ContenidoTap .info .form_titulo #selector-nivel label {
-	background-color: var(--fondo-resaltado2);
+	background-color: var(--elemento-fondo-hover);
 	aspect-ratio: 1 / 1;
 	padding: 10px;
 	border-radius: 10px;
@@ -791,12 +934,12 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	font-size: 1.25em;
 	font-weight: 600;
 }
-#menuTap .ContenidoTap .info .form_titulo #selector-nivel label:hover {background-color: var(--fondo-resaltado2-hover);}
+#menuTap .ContenidoTap .info .form_titulo #selector-nivel label:hover {background-color: var(--button-opaco-hover);}
 #menuTap .ContenidoTap .info .form_titulo #selector-nivel #rh1:checked ~ label[for="rh1"],
 #menuTap .ContenidoTap .info .form_titulo #selector-nivel #rh2:checked ~ label[for="rh2"],
 #menuTap .ContenidoTap .info .form_titulo #selector-nivel #rh3:checked ~ label[for="rh3"],
 #menuTap .ContenidoTap .info .form_titulo #selector-nivel #rh4:checked ~ label[for="rh4"],
-#menuTap .ContenidoTap .info .form_titulo #selector-nivel #rh5:checked ~ label[for="rh5"] {background-color: var(--fondo-resaltado2-activo);}
+#menuTap .ContenidoTap .info .form_titulo #selector-nivel #rh5:checked ~ label[for="rh5"] {background-color: var(--button-opaco-active);}
 
 /* Para tabla */
 #menuTap .ContenidoTap .info .form_tabla {display: flex; justify-content: space-around; gap: 20px}
@@ -805,7 +948,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	border: 0;
     outline: 0;
     font-size: 1em;
-    color: white;
+    color: var(--text-base);
 }
 #menuTap .ContenidoTap .info .form_tabla .numero {
   margin-top: .5em;
@@ -815,7 +958,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 #menuTap .ContenidoTap .info .form_tabla .numero > * {padding: 10px;}
 #menuTap .ContenidoTap .info .form_tabla .numero input {
   text-align: center;
-  background: #1c1c1c;
+  background: var(--button-opaco-hover);
   width: 100%;
   min-width: 50px;
 }
@@ -824,7 +967,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
   cursor: pointer;
   width: calc(1em + 20px);
   text-align: center;
-  background: #2e2e2e;
+  background: var(--button-opaco-active);
   aspect-ratio: 1/1;
   display: flex;
   align-items: center;
@@ -875,7 +1018,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 #menuTap .ContenidoTap .info .form_multimedia input[type="file"] {display: none;}
 
 #menuTap .ContenidoTap .info .form_multimedia input,
-#menuTap .ContenidoTap .info .form_multimedia textarea {width: 100%; outline: 0px; border: 0px; padding: 3px; border-radius: 5px; resize: none;}
+#menuTap .ContenidoTap .info .form_multimedia textarea {width: 100%; outline: 0px; border: 0px; padding: 3px; border-radius: 5px; resize: none; border: 0px;}
 
 
 #menuTap .ContenidoTap .info .form_multimedia .control {
@@ -891,7 +1034,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 	gap: .5em;
 	cursor: pointer;
 	padding: 0.5em 0.75em;
-	background: #2e2e2e;
+	background: var(--button-opaco-active);
 	border-radius: 5px;
 	user-select: none;
 	overflow: hidden;
@@ -954,7 +1097,7 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 }
 #menuTap .ContenidoTap .info .form_code a:hover {color: var(--text-resaltado);}
 #menuTap .ContenidoTap .info .form_code .view {
-    background: #2e2e2e;
+	background: var(--button);
     padding: 0.5em 0.75em;
     width: 15em;
     border-radius: 5px;
@@ -971,21 +1114,21 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
 #menuTap .ContenidoTap .info .form_code .icon {
     width: 1em;
     height: 1em;
-    fill: white;
+    fill: var(--text-base);
     transform: translate(0%, -5%) rotate(0deg);
     pointer-events: none;
     transition: transform 0.5s ease;
 }
 #menuTap .ContenidoTap .info .form_code .view.active .icon {transform: translate(0%, -5%) rotate(180deg);}
 #menuTap .ContenidoTap .info .form_code .dropdown-menu {
-  background: #1c1c1c;
+  background: var(--elemento-fondo);
   width: fit-content;
   min-width: 15em;
   margin-top: 0.3em;
   padding: 8px;
   border-radius: 5px;
   display: none;
-  color: white;
+  color: var(--text-base);
   transition: opacity 0.3s ease;
   opacity: 0;
   pointer-events: none;
@@ -1000,14 +1143,14 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
   overflow-y: auto;
 }
 #menuTap .ContenidoTap .info .form_code .dropdown-menu input[type="text"] {
-  background: #2e2e2e;
+  background: var(--button-opaco-active);
   width: 100%;
   margin-bottom: 8px;
   padding: 6px;
   border: none;
   border-radius: 3px;
   outline: none;
-  color: white;
+  color: var(--text-base);
 }
 #menuTap .ContenidoTap .info .form_code .radio-options input[type="radio"] {display: none;}
 #menuTap .ContenidoTap .info .form_code .radio-options label {
@@ -1016,31 +1159,92 @@ body.Edit .content.tabla table :is(td:nth-child(even), th:nth-child(even)) {back
   cursor: pointer;
   display: block;
 }
-#menuTap .ContenidoTap .info .form_code .radio-options label:hover {background-color: #225588;}
+#menuTap .ContenidoTap .info .form_code .radio-options label:hover {background-color: #03A9F4;}
 
 
 /* Para custom */
 #menuTap .ContenidoTap .info .form_custom .campo-custom {display: flex; flex-direction: column; height: 100%;}
 #menuTap .ContenidoTap .info .form_custom .campo-custom label {margin-bottom: 5px;}
-#menuTap .ContenidoTap .info .form_custom .campo-custom textarea {resize: none; flex: 1; width: 100%; padding: 3px; outline: 0px; border-radius: 5px;}
+#menuTap .ContenidoTap .info .form_custom .campo-custom textarea {resize: none; flex: 1; width: 100%; padding: 3px; outline: 0px; border-radius: 5px; border: 0px;}
 
 /* Configuración de custom */
-#menuTap .ConfigTap .info textarea {resize: none; flex: 1; width: 100%; padding: 3px; outline: 0px; border-radius: 5px;}
+#menuTap .ConfigTap .info textarea {resize: none; flex: 1; width: 100%; padding: 3px; outline: 0px; border-radius: 5px; border: 0px;}
 #menuTap .ConfigTap .info .accion {
 	width: 100%;
 	height: 2em;
     text-align: right;
 }
 #menuTap .ConfigTap .info button {
-	background-color: var(--fondo-resaltado2-activo);
+	background-color: var(--button-opaco-active);
 	padding: .25em 10px;
 	border-radius: 5px;
 	cursor: pointer;
     border: 0;
 	color: var(--text-resaltado);
 }
-#menuTap .ConfigTap .info button:hover {background-color: var(--fondo-resaltado2-hover);}
-#menuTap .ConfigTap .info button:active {background-color: var(--fondo-resaltado2);}
+#menuTap .ConfigTap .info button:hover {background-color: var(--button-opaco-hover);}
+#menuTap .ConfigTap .info button:active {background-color: var(--button-opaco-press);}
+
+
+/* Ventanas de texto - Enlace */
+#linkMenu {
+	background: var(--elemento-opaco);
+	padding: 10px;
+	box-shadow: 0 2px 8px rgba(0,0,0,.2);
+	border-radius: 15px;
+    backdrop-filter: blur(2px);
+	position: absolute;
+	z-index: 1000;
+    gap: 10px;
+	display: none;
+	align-items: center;
+}
+#linkMenu input {
+    width: 100%;
+    outline: 0px;
+    border: 0px;
+    padding: 3px;
+    border-radius: 5px;
+    resize: none;
+    border: 0px;
+}
+#linkMenu button {
+	background-color: transparent;
+    border: 0;
+    cursor: pointer;
+}
+#linkMenu i {
+    width: 20px;
+    height: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+	display: block;
+    filter: var(--color-icon);
+}
+#linkMenu #btnQuitarEnlace:hover i {
+    fill: #ff0000;
+    filter: invert(0);
+}
+#linkMenu #btnAddEnlace:hover i {
+    fill: #03A9F4;
+    filter: invert(0);
+}
+a.select {
+	background: #03A9F4;
+	color: inherit;
+	text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1140,8 +1344,51 @@ body.dark i.light {
 .menuEdicion i.removeFormat {
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2303A9F4'%3E%3Cpath d='M11.48,10.09l-1.2-1.21L8.8,7.41,6.43,5,5.37,6.1,8.25,9,4.66,19h2l1.43-4h5.14l1.43,4h2l-.89-2.51L18.27,19l1.07-1.06L14.59,13.2ZM8.8,13l.92-2.56L12.27,13Zm.56-7.15L9.66,5h2l1.75,4.9Z'%3E%3C/path%3E%3C/svg%3E")
 }
-.menuEdicion i.insertarEcuacion {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52' fill='%2303A9F4'%3E%3Cpath d='M30.2,3.2c-0.8-0.6-1.9-0.9-3.2-0.9c-0.3,0-0.6,0-0.9,0.1c-3.5,0.5-5.8,3.8-7.2,6.8c-0.6,1.4-1.2,2.9-1.7,4.4c-0.3,0.7-0.5,1.4-0.8,2.1c0,0.1-0.4,1.5-0.5,1.5c0,0-3.2,0-3.2,0l0,0h-0.4c-0.5,0-0.9,0.4-0.9,0.9c0,0.5,0.4,0.9,0.9,0.9h3.1l-1.8,7.5C12,34.7,9.7,44.2,9.1,45.9c-0.6,1.7-1.4,2.6-2.5,2.6c-0.2,0-0.4,0-0.5-0.1c-0.1-0.1-0.2-0.2-0.2-0.4c0-0.1,0.1-0.4,0.3-0.7c0.2-0.3,0.3-0.7,0.3-1c0-0.7-0.2-1.2-0.7-1.6c-0.4-0.4-0.9-0.6-1.5-0.6c-0.6,0-1.1,0.2-1.6,0.6c-0.5,0.4-0.7,1-0.7,1.7c0,1,0.4,1.8,1.2,2.5c0.8,0.7,1.8,1,3.1,1c2.1,0,4.1-1,5.5-2.6c0.9-1,1.5-2.2,2.1-3.5c1.8-3.9,2.7-8.2,3.7-12.3c1-4.2,2-8.4,2.9-12.7H24c0.5,0,0.9-0.4,0.9-0.9c0-0.5-0.4-0.9-0.9-0.9H24v0h-3.1c1.7-6.6,3.7-11.1,4.1-11.8c0.7-1.1,1.4-1.7,2.1-1.7c0.3,0,0.5,0.1,0.6,0.2c0.1,0.2,0.1,0.3,0.1,0.4c0,0.1-0.1,0.3-0.3,0.7c-0.2,0.4-0.3,0.8-0.3,1.2c0,0.6,0.2,1,0.6,1.4c0.4,0.4,0.9,0.6,1.5,0.6c0.6,0,1.1-0.2,1.5-0.6c0.4-0.4,0.6-1,0.6-1.7C31.5,4.6,31.1,3.8,30.2,3.2z'/%3E%3Cpath d='M46.1,23.2c1.3,0,3.8-1,3.8-4.4c0-3.3-2.4-3.5-3.1-3.5c-1.5,0-2.9,1.1-4.2,3.3c-1.3,2.3-2.7,4.7-2.7,4.7l0,0c-0.3-1.6-0.6-2.9-0.7-3.5c-0.3-1.4-1.9-4.4-5.2-4.4c-3.3,0-6.3,1.9-6.3,1.9l0,0c-0.6,0.4-0.9,1-0.9,1.7c0,1.1,0.9,2,2,2c0.3,0,0.6-0.1,0.9-0.2l0,0c0,0,2.5-1.4,3,0c0.2,0.4,0.3,0.9,0.4,1.4c0.6,2.2,1.2,4.7,1.7,7l-2.2,3.1c0,0-2.4-0.9-3.7-0.9s-3.8,1-3.8,4.4s2.4,3.5,3.1,3.5c1.5,0,2.9-1.1,4.2-3.3c1.3-2.3,2.7-4.7,2.7-4.7c0.4,2,0.8,3.7,1,4.4c0.8,2.3,2.7,3.7,5.3,3.7c0,0,2.6,0,5.7-1.7c0.7-0.3,1.3-1,1.3-1.9c0-1.1-0.9-2-2-2c-0.3,0-0.6,0.1-0.9,0.2l0,0c0,0-2.2,1.2-2.9,0.3c-0.5-1-1-2.4-1.3-4c-0.3-1.5-0.7-3.2-1-4.9l2.2-3.2C42.4,22.3,44.9,23.2,46.1,23.2z'/%3E%3C/svg%3E");
+#btnQuitarEnlace i {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23ff0000'%3E%3Cpath d='M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z'/%3E%3C/svg%3E")
+}
+#btnAddEnlace i {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 513.76 407.7' fill='%2303A9F4'%3E%3Cpath d='M485.47,25.86l-14.14-14.14c-15.62-15.62-40.95-15.62-56.57,0l-254.56,254.56-77.78-77.78c-15.62-15.62-40.95-15.62-56.57,0l-14.14,14.14c-15.62,15.62-15.62,40.95,0,56.57l106.02,106.02s.03.03.05.05l14.14,14.14c7.81,7.81,18.05,11.72,28.29,11.72,10.24,0,20.47-3.9,28.29-11.72l14.14-14.14s.03-.03.05-.05L485.47,82.43c15.62-15.62,15.62-40.95,0-56.57Z'/%3E%3C/svg%3E")
+}
+
+/* Menu de formula */
+.content.ecuacion .contenido i{
+	width:50px;
+	aspect-ratio: 1 / 1;
+	filter: none;
+}
+.content.ecuacion .contenido i.fraccion {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='10.57' width='20' height='20'/%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='38.75' width='20' height='20'/%3E%3Cline fill='none' stroke='%23595959' stroke-width='2px' x1='5.5' y1='34.5' x2='35.5' y2='34.5'/%3E%3C/svg%3E")
+}
+body.dark .content.ecuacion i.fraccion {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='10.57' width='20' height='20'/%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='38.75' width='20' height='20'/%3E%3Cline fill='none' stroke='%23fff' stroke-width='2px' x1='5.5' y1='34.5' x2='35.5' y2='34.5'/%3E%3C/svg%3E")
+}
+.content.ecuacion .contenido i.radical {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='20.5' y='26.15' width='20' height='20'/%3E%3Crect fill='none' stroke='%2303A9F4' x='.5' y='26.15' width='10' height='10'/%3E%3Cpolyline fill='none' stroke='%23595959' stroke-width='2px' points='10.5 37.94 14.41 46.15 14.41 46.15 17.76 22.85 40.5 22.85'/%3E%3C/svg%3E")
+}
+body.dark .content.ecuacion i.radical {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='20.5' y='26.15' width='20' height='20'/%3E%3Crect fill='none' stroke='%2303A9F4' x='.5' y='26.15' width='10' height='10'/%3E%3Cpolyline fill='none' stroke='%23fff' stroke-width='2px' points='10.5 37.94 14.41 46.15 14.41 46.15 17.76 22.85 40.5 22.85'/%3E%3C/svg%3E")
+}
+.content.ecuacion i.indices {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4'  x='3.5' y='24.5' width='20' height='20'/%3E%3Crect fill='none' stroke='%2303A9F4' x='27.5' y='22.5' width='10' height='10'/%3E%3Crect fill='none' stroke='%2303A9F4' x='27.5' y='36.5' width='10' height='10'/%3E%3C/svg%3E")
+}
+.content.ecuacion i.barra {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='26.5' width='20' height='20'/%3E%3Cline fill='none' stroke='%23595959' stroke-width='2px' x1='9.94' y1='22.5' x2='31.06' y2='22.5'/%3E%3C/svg%3E")
+}
+body.dark .content.ecuacion i.barra {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='26.5' width='20' height='20'/%3E%3Cline fill='none' stroke='%23fff' stroke-width='2px' x1='9.94' y1='22.5' x2='31.06' y2='22.5'/%3E%3C/svg%3E")
+}
+.content.ecuacion i.acento {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='29' width='20' height='20'/%3E%3Cpolyline fill='none' stroke-width='2px' stroke='%23595959' points='10.5 26 20.5 20 30.5 26'/%3E%3C/svg%3E")
+}
+body.dark .content.ecuacion i.acento {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='29' width='20' height='20'/%3E%3Cpolyline fill='none' stroke-width='2px' stroke='%23fff' points='10.5 26 20.5 20 30.5 26'/%3E%3C/svg%3E")
+}
+.content.ecuacion i.pisos2 {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='36.5' width='20' height='20'/%3E%3Crect fill='none' stroke='%2303A9F4' x='10.5' y='12.5' width='20' height='20'/%3E%3C/svg%3E")
+}
+.content.ecuacion i.pisos3 {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41 69'%3E%3Cpath stroke='%2303A9F4' fill='none' d='M30.5,68.5H10.5v-20h20v20Z'/%3E%3Cpath stroke='%2303A9F4' fill='none' d='M30.5,44.5H10.5v-20h20v20Z'/%3E%3Cpath stroke='%2303A9F4' fill='none' d='M30.5,20.5H10.5V.5h20v20Z'/%3E%3C/svg%3E")
 }
 
 /* Contenido */
@@ -1166,8 +1413,7 @@ body.dark i.light {
 #conten i.del {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 512 512'%3E%3Cpath d='M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z'/%3E%3C/svg%3E")
 }
-#menuTap i.arrow,
-#conten i.arrow {
+#menuTap i.arrow, #conten i.arrow {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 100 100'%3E%3Cpolygon points='5.9,88.2 50,11.8 94.1,88.2 '%3E%3C/polygon%3E%3C/svg%3E")
 }
 
@@ -1191,7 +1437,7 @@ body.dark #conten .seccion .content .contenido .preview p {color: #adadad}
 #conten .seccion .content:is(.imagen, .audio, .video, .iframe) .contenido .preview .icon {
 	width: 50px;
 	height: 70px;
-	opacity: .65;
+    opacity: .5;
     margin-bottom: 10px;
     filter: var(--color-icon);
     background-repeat: no-repeat;
@@ -1243,6 +1489,9 @@ body.dark #conten .seccion .content .contenido .preview p {color: #adadad}
 }
 #menuTap .info i.tabla {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 512 512'%3E%3Cpath d='M64 256V160H224v96H64zm0 64H224v96H64V320zm224 96V320H448v96H288zM448 256H288V160H448v96zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z'/%3E%3C/svg%3E")
+}
+#menuTap .info i.ecuacion {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 52 52'%3E%3Cpath d='M30.2,3.2c-0.8-0.6-1.9-0.9-3.2-0.9c-0.3,0-0.6,0-0.9,0.1c-3.5,0.5-5.8,3.8-7.2,6.8c-0.6,1.4-1.2,2.9-1.7,4.4c-0.3,0.7-0.5,1.4-0.8,2.1c0,0.1-0.4,1.5-0.5,1.5c0,0-3.2,0-3.2,0l0,0h-0.4c-0.5,0-0.9,0.4-0.9,0.9c0,0.5,0.4,0.9,0.9,0.9h3.1l-1.8,7.5C12,34.7,9.7,44.2,9.1,45.9c-0.6,1.7-1.4,2.6-2.5,2.6c-0.2,0-0.4,0-0.5-0.1c-0.1-0.1-0.2-0.2-0.2-0.4c0-0.1,0.1-0.4,0.3-0.7c0.2-0.3,0.3-0.7,0.3-1c0-0.7-0.2-1.2-0.7-1.6c-0.4-0.4-0.9-0.6-1.5-0.6c-0.6,0-1.1,0.2-1.6,0.6c-0.5,0.4-0.7,1-0.7,1.7c0,1,0.4,1.8,1.2,2.5c0.8,0.7,1.8,1,3.1,1c2.1,0,4.1-1,5.5-2.6c0.9-1,1.5-2.2,2.1-3.5c1.8-3.9,2.7-8.2,3.7-12.3c1-4.2,2-8.4,2.9-12.7H24c0.5,0,0.9-0.4,0.9-0.9c0-0.5-0.4-0.9-0.9-0.9H24v0h-3.1c1.7-6.6,3.7-11.1,4.1-11.8c0.7-1.1,1.4-1.7,2.1-1.7c0.3,0,0.5,0.1,0.6,0.2c0.1,0.2,0.1,0.3,0.1,0.4c0,0.1-0.1,0.3-0.3,0.7c-0.2,0.4-0.3,0.8-0.3,1.2c0,0.6,0.2,1,0.6,1.4c0.4,0.4,0.9,0.6,1.5,0.6c0.6,0,1.1-0.2,1.5-0.6c0.4-0.4,0.6-1,0.6-1.7C31.5,4.6,31.1,3.8,30.2,3.2z'/%3E%3Cpath d='M46.1,23.2c1.3,0,3.8-1,3.8-4.4c0-3.3-2.4-3.5-3.1-3.5c-1.5,0-2.9,1.1-4.2,3.3c-1.3,2.3-2.7,4.7-2.7,4.7l0,0c-0.3-1.6-0.6-2.9-0.7-3.5c-0.3-1.4-1.9-4.4-5.2-4.4c-3.3,0-6.3,1.9-6.3,1.9l0,0c-0.6,0.4-0.9,1-0.9,1.7c0,1.1,0.9,2,2,2c0.3,0,0.6-0.1,0.9-0.2l0,0c0,0,2.5-1.4,3,0c0.2,0.4,0.3,0.9,0.4,1.4c0.6,2.2,1.2,4.7,1.7,7l-2.2,3.1c0,0-2.4-0.9-3.7-0.9s-3.8,1-3.8,4.4s2.4,3.5,3.1,3.5c1.5,0,2.9-1.1,4.2-3.3c1.3-2.3,2.7-4.7,2.7-4.7c0.4,2,0.8,3.7,1,4.4c0.8,2.3,2.7,3.7,5.3,3.7c0,0,2.6,0,5.7-1.7c0.7-0.3,1.3-1,1.3-1.9c0-1.1-0.9-2-2-2c-0.3,0-0.6,0.1-0.9,0.2l0,0c0,0-2.2,1.2-2.9,0.3c-0.5-1-1-2.4-1.3-4c-0.3-1.5-0.7-3.2-1-4.9l2.2-3.2C42.4,22.3,44.9,23.2,46.1,23.2z'/%3E%3C/svg%3E");
 }
 #menuTap .info i.iframe {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 512 512'%3E%3Cpath d='M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM96 96H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32s14.3-32 32-32z'/%3E%3C/svg%3E");
