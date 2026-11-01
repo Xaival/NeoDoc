@@ -44,8 +44,8 @@ Puedes añadir los siguientes elementos a cualquier sección:
 
 - ✏️ Personalizar los editores de contenido.
 - ⚙️ Mejorar la configuración de la página, incluidos los estilos.
-- 🎨 Revisar y mejorar los colores de las opciones de ecuación.
-- 📊 Mejorar la configuración de las tablas, que actualmente permite ajustar filas y columnas.
+- 🎨 Cambiar colores de las opciones de ecuación.
+- 📊 Mejorar la configuración de las tablas, que permita ajustar filas y columnas.
 - 🧹 Revisar y mejorar el contenido de ejemplo de la página, que por ahora sirve para indicar dónde están las funciones, como «Enlace 1», el título de prueba largo y «success.txt».
 - 🖱️ Corregir el desplazamiento automático durante la selección múltiple: al arrastrar el recuadro de selección hacia la parte inferior de la página, esta debe desplazarse automáticamente para poder seguir seleccionando elementos fuera del área visible.
 
@@ -53,7 +53,7 @@ Puedes añadir los siguientes elementos a cualquier sección:
 
 ## 📁 Uso
 
-Abre `index.html` directamente en tu navegador. No se requiere instalación ni conexión a internet.
+Abre `NeoDoc.html` directamente en tu navegador. No se requiere instalación ni conexión a internet.
 
 ---
 
