@@ -308,6 +308,7 @@ body.Edit #menu-lateral .indice .nombre:hover i.edit {
 #menu-lateral .indice a:hover  {color: var(--text-resaltado);}
 #menu-lateral .configuracion {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
 }
 #menu-lateral .configuracion a {
@@ -365,7 +366,7 @@ body.documento-pendiente #menu-lateral .configuracion a[title="Guardar"]::after 
     transition: transform 0.5s ease 0.2s;
   }
 }
-@media (max-width: 900px) {
+@media (width < 900px) {
   #menu-lateral {
     height: 100vh;
     position: absolute;
@@ -397,6 +398,7 @@ body.documento-pendiente #menu-lateral .configuracion a[title="Guardar"]::after 
 	transition: all 0s;
 }
 #conten {
+	container: documento / inline-size;
 	width: 100%;
 	max-width: 1250px;
 	padding: 10px;
@@ -426,7 +428,7 @@ body.View .menu-superior {height: 20px;}
 	flex-wrap: wrap;
 	align-items: center;
 }
-body.View .menuEdicion {opacity: 0; pointer-events: none;}
+body.View .menuEdicion {visibility: hidden;}
 .menuEdicion .opcion {
 	height: 35px;
 	aspect-ratio: 1/1;
@@ -479,20 +481,19 @@ body.View .menuEdicion {opacity: 0; pointer-events: none;}
     padding-left: 80px;
   }
 }
-@media (max-width: 899px) {
+@media (width < 900px) {
   #menu-lateral.mob-active ~ .cuerpo .menu-superior {padding-left: 0;}
 }
 @media (min-width: 900px) and (max-width: 1350px) {
   #menu-lateral.active ~ .cuerpo .menu-superior {padding-left: 0;}
 }
-@media (max-width: 400px) {
-	.menuEdicion {justify-content: center;}
-	.menuEdicion hr {
-		height: 0;
-		width: 100%;
-		opacity: .25;
-		margin: 5px 0;
-	}
+@media (max-width: 460px) {
+  .menuEdicion {justify-content: center;}
+  .menuEdicion hr {display: none;}
+  .menuEdicion .opcion {height: clamp(29px, 8vw, 35px);}
+}
+@media (max-height: 460px) and (max-width: 850px) {
+  .menu-superior {position: relative;}
 }
 
 
@@ -743,7 +744,7 @@ body.Edit #conten .seccion .content:hover > .contenido {background-color: var(--
 }
 #conten .seccion .ajustes .configura > div:hover i {opacity: 1;}
 
-@media (max-width: 900px) {
+@container documento (width < 680px) {
   #conten .seccion.columnas {grid-template-columns: minmax(0, 1fr); gap: 0;}
   #conten .seccion.columnas .columna {width: 100%;}
 }
@@ -2232,7 +2233,7 @@ body.dark #menuTap .info .form_tabla .numero label {background: var(--button-opa
 }
 #menuTap .ConfigTap .info .custom-color-grid {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(130px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr));
 	gap: 8px;
 }
 #menuTap .ConfigTap .info .custom-color-field {
@@ -2652,16 +2653,74 @@ body.dark .content.ecuacion i.acento {
 
 </style>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 550 650'%3E%3Crect fill='%23ebe7e0' width='550' height='650' rx='70' ry='70'/%3E%3Cpath fill='%23b9b9af' d='M0,80v-10C0,31.34,31.34,0,70,0h410c38.66,0,70,31.34,70,70v10H0Z'/%3E%3Crect fill='%23b9b9af' x='75' y='147.46' width='400' height='200' rx='50' ry='50'/%3E%3Crect fill='%23b9b9af' x='75' y='384.94' width='300' height='40' rx='20' ry='20'/%3E%3Crect fill='%23b9b9af' x='75' y='464.94' width='250' height='40' rx='20' ry='20'/%3E%3Cpath fill='%23ebe7e0' d='M304.64,238.66l-44.51-25.7c-6.77-3.91-15.24.98-15.24,8.8v51.4c0,7.82,8.47,12.71,15.24,8.8l44.51-25.7c6.77-3.91,6.77-13.69,0-17.6Z'/%3E%3C/svg%3E">
+<style>
+/* Encaje y foco de la navegación y los formularios */
+#menu-lateral .btn-desplegable {border: 0;}
+#menu-lateral .panel-menu .indice {min-height: 0; overflow-y: auto; overflow-wrap: anywhere;}
+#menu-lateral .configuracion {flex: none;}
+#conten .seccion .content:focus-within .ajustes {opacity: 1;}
+#conten .conf [role=button]:focus-visible,
+#conten .ajustes [role=button]:focus-visible,
+#menuTap [role=button]:focus-visible,
+#menu-lateral .btn-desplegable:focus-visible {
+  outline: 2px solid var(--text-secundario);
+  outline-offset: 2px;
+  opacity: 1;
+}
+#menuTap .historial-info {position: static;}
+#menuTap .historial-tooltip {
+  left: 12px;
+  width: min(310px, calc(100% - 24px));
+}
+#menuTap .historial-acciones,
+#menuTap .DisenoTap .accion,
+#menuTap .DisenoTap .accion-botones,
+#menuTap .DisenoTap .table-design-border-settings label {
+  flex-wrap: wrap;
+}
+#menuTap .DisenoTap .table-design-border-colors {flex-wrap: wrap; min-width: 0;}
+#menuTap.edicion-con-pestanas .editor-tabs {min-width: 0;}
+#menuTap.edicion-con-pestanas .editor-tabs button,
+#menuTap.edicion-con-pestanas .editor-tabs button[aria-selected="true"] {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding-inline: clamp(3px, calc((100vw - 190px) / 7), 28px);
+  overflow-wrap: anywhere;
+}
+#menuTap.edicion-con-pestanas .barraTitulo i.close {
+  margin-left: clamp(2px, calc((100vw - 180px) / 8), 14px);
+}
+#historial-conflicto {
+  align-self: stretch;
+  flex: none;
+  margin: 6px 10px;
+  padding: 10px;
+  background: var(--elemento-opaco);
+  border: 1px solid var(--text-secundario);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+#historial-conflicto button {
+  margin-inline-start: .4em;
+  padding: .2em .5em;
+  border: 0;
+  border-radius: 5px;
+  background: var(--button-opaco);
+  color: var(--text-resaltado);
+  cursor: pointer;
+}
+</style>
+
   </head>
   <body class="dark View">
     <div id="menu-lateral" class="active">
       <div class="popup-backdrop" onclick="toggleMenu()"></div>
-      <div class="btn-desplegable" onclick="toggleMenu()"><i class="menu"></i></div>
-      <div class="panel-menu">
+      <button type="button" class="btn-desplegable" aria-label="Menú lateral" aria-controls="panel-menu" aria-expanded="true" onclick="toggleMenu()"><i class="menu" aria-hidden="true"></i></button>
+      <div class="panel-menu" id="panel-menu">
         <div class="indice">
           <h2>Nombre</h2>
           <div class="nombre">
-            <p contenteditable="true" oninput="document.title=this.innerText.trim()!=='' ? this.innerText:'NeoDoc'" onblur="if (this.innerText.trim() === '') {this.innerText = 'NeoDoc';}">NeoDoc - Pruebas</p>
+            <p contenteditable="false" oninput="document.title=this.innerText.trim()!=='' ? this.innerText:'NeoDoc'" onblur="if (this.innerText.trim() === '') {this.innerText = 'NeoDoc';}">NeoDoc - Pruebas</p>
             <i class="edit"></i>
           </div>
           <h2>Índice</h2>
@@ -2669,7 +2728,7 @@ body.dark .content.ecuacion i.acento {
         </div>
         <div class="configuracion">
           <a href="#" title="Configuracion" onclick="openTap(this, 'Configuracion')"><i class="config"></i></a>
-          <a href="#" title="Guardar" onclick="SaveHTML()"><i class="download"></i></a>
+          <a href="#" title="Guardar" onclick="SaveHTML(); return false"><i class="download"></i></a>
           <a href="#" title="Importar" onclick="ImportarJSON(); return false"><i class="import"></i></a>
           <input id="archivo-importar-json" type="file" accept=".json,application/json" hidden="" onchange="ImportarJSON(this)">
           <a href="#" title="Exportar" onclick="ExportarJSON(); return false"><i class="export"></i></a>
@@ -2682,6 +2741,10 @@ body.dark .content.ecuacion i.acento {
     </div>
 
     <div class="cuerpo">
+      <aside id="historial-conflicto" hidden>
+        <span role="status">Otra pestaña guardó cambios. Esta pestaña conserva un borrador independiente.</span>
+        <button type="button" onclick="ExportarJSON()">Exportar borrador</button>
+      </aside>
       <div class="menu-superior" id="menuEdicion">
         <div class="menuEdicion">
           <button title="Negrita (Ctrl+B)" class="opcion activo" id="negro" onclick="aplicarFormato('bold')"><i class="bold"></i></button>
@@ -2723,21 +2786,21 @@ body.dark .content.ecuacion i.acento {
   <div class="content titulo" data-info="{&quot;tipo&quot;:&quot;titulo&quot;,&quot;nivel&quot;:&quot;1&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
       <div class="titulo" id="H1_0"></div>
-      <h1 contenteditable="true" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">NeoDoc · Documento de pruebas</h1>
+      <h1 contenteditable="false" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">NeoDoc · Documento de pruebas</h1>
     </div>
   </div>
 </div></div>
@@ -2745,40 +2808,40 @@ body.dark .content.ecuacion i.acento {
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><p>Ejemplos de todos los bloques disponibles. Utiliza el modo Edición para probar sus opciones.</p><p><strong>Negrita</strong>, <em>cursiva</em>, <u>subrayado</u>, <s>tachado</s> y <a href="https://example.com">enlace</a>.</p><ul><li>Primera tarea</li><li>Segunda tarea</li></ul><ol><li>Crear contenido</li><li>Editar y guardar</li></ol></div>
+    <div class="contenido" contenteditable="false"><p>Ejemplos de todos los bloques disponibles. Utiliza el modo Edición para probar sus opciones.</p><p><strong>Negrita</strong>, <em>cursiva</em>, <u>subrayado</u>, <s>tachado</s> y <a href="https://example.com">enlace</a>.</p><ul><li>Primera tarea</li><li>Segunda tarea</li></ul><ol><li>Crear contenido</li><li>Editar y guardar</li></ol></div>
   </div>
 </div></div>
 <div class="seccion"><div class="columna">
   <div class="content titulo" data-info="{&quot;tipo&quot;:&quot;titulo&quot;,&quot;nivel&quot;:&quot;2&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
       <div class="titulo" id="H2_1"></div>
-      <h2 contenteditable="true" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Desplegables y distribuciones</h2>
+      <h2 contenteditable="false" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Desplegables y distribuciones</h2>
     </div>
   </div>
 </div></div>
@@ -2786,22 +2849,22 @@ body.dark .content.ecuacion i.acento {
   <div class="content desplegable" data-info="{&quot;tipo&quot;: &quot;desplegable&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
       <div class="titulo">
         <i class="arrow" onclick="desplegar(this)"></i>
-        <div contenteditable="true" onmouseup="actualizarBotonesFormato()">Material complementario</div>
+        <div contenteditable="false" onmouseup="actualizarBotonesFormato()">Material complementario</div>
       </div>
     </div>
     <div class="desplegado" style="max-height: 0px; overflow: hidden;">
@@ -2810,19 +2873,19 @@ body.dark .content.ecuacion i.acento {
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true">Este es un contenido hijo del desplegable.</div>
+    <div class="contenido" contenteditable="false">Este es un contenido hijo del desplegable.</div>
   </div>
 </div>
       </div>
@@ -2833,352 +2896,352 @@ body.dark .content.ecuacion i.acento {
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>11</strong><p>Columna A</p></div>
+    <div class="contenido" contenteditable="false"><strong>11</strong><p>Columna A</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>11</strong><p>Columna B</p></div>
+    <div class="contenido" contenteditable="false"><strong>11</strong><p>Columna B</p></div>
   </div>
 </div></div>
 <div class="seccion columnas columnas21"><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>21</strong><p>Columna Ancha</p></div>
+    <div class="contenido" contenteditable="false"><strong>21</strong><p>Columna Ancha</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>21</strong><p>Columna Estrecha</p></div>
+    <div class="contenido" contenteditable="false"><strong>21</strong><p>Columna Estrecha</p></div>
   </div>
 </div></div>
 <div class="seccion columnas columnas12"><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>12</strong><p>Columna Estrecha</p></div>
+    <div class="contenido" contenteditable="false"><strong>12</strong><p>Columna Estrecha</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>12</strong><p>Columna Ancha</p></div>
+    <div class="contenido" contenteditable="false"><strong>12</strong><p>Columna Ancha</p></div>
   </div>
 </div></div>
 <div class="seccion columnas columnas111"><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>111</strong><p>Columna A</p></div>
+    <div class="contenido" contenteditable="false"><strong>111</strong><p>Columna A</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>111</strong><p>Columna B</p></div>
+    <div class="contenido" contenteditable="false"><strong>111</strong><p>Columna B</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>111</strong><p>Columna C</p></div>
+    <div class="contenido" contenteditable="false"><strong>111</strong><p>Columna C</p></div>
   </div>
 </div></div>
 <div class="seccion columnas columnas112"><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>112</strong><p>Columna A</p></div>
+    <div class="contenido" contenteditable="false"><strong>112</strong><p>Columna A</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>112</strong><p>Columna B</p></div>
+    <div class="contenido" contenteditable="false"><strong>112</strong><p>Columna B</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>112</strong><p>Columna Ancha</p></div>
+    <div class="contenido" contenteditable="false"><strong>112</strong><p>Columna Ancha</p></div>
   </div>
 </div></div>
 <div class="seccion columnas columnas121"><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>121</strong><p>Columna A</p></div>
+    <div class="contenido" contenteditable="false"><strong>121</strong><p>Columna A</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>121</strong><p>Columna Ancha</p></div>
+    <div class="contenido" contenteditable="false"><strong>121</strong><p>Columna Ancha</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>121</strong><p>Columna C</p></div>
+    <div class="contenido" contenteditable="false"><strong>121</strong><p>Columna C</p></div>
   </div>
 </div></div>
 <div class="seccion columnas columnas211"><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>211</strong><p>Columna Ancha</p></div>
+    <div class="contenido" contenteditable="false"><strong>211</strong><p>Columna Ancha</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>211</strong><p>Columna B</p></div>
+    <div class="contenido" contenteditable="false"><strong>211</strong><p>Columna B</p></div>
   </div>
 </div><div class="columna">
   <div class="content texto" data-info="{&quot;tipo&quot;: &quot;texto&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
-    <div class="contenido" contenteditable="true"><strong>211</strong><p>Columna C</p></div>
+    <div class="contenido" contenteditable="false"><strong>211</strong><p>Columna C</p></div>
   </div>
 </div></div>
 <div class="seccion"><div class="columna">
   <div class="content titulo" data-info="{&quot;tipo&quot;:&quot;titulo&quot;,&quot;nivel&quot;:&quot;2&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
       <div class="titulo" id="H2_2"></div>
-      <h2 contenteditable="true" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Tabla y ecuación</h2>
+      <h2 contenteditable="false" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Tabla y ecuación</h2>
     </div>
   </div>
 </div></div>
@@ -3186,35 +3249,35 @@ body.dark .content.ecuacion i.acento {
   <div class="content tabla" data-info="{&quot;tipo&quot;: &quot;tabla&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido" data-neodoc-align="center">
       <!-- Contenido aquí -->
       <table data-neodoc-alternate="rows" data-neodoc-border-frame="false" data-neodoc-border-horizontal="true" data-neodoc-border-vertical="false" data-neodoc-header-left="false" data-neodoc-header-top="true" data-neodoc-table-design="" style="--neodoc-table-header-light: #d8d2c8; --neodoc-table-header-dark: #2a2a2a; --neodoc-table-base-light: #e4ded4; --neodoc-table-base-dark: #171717; --neodoc-table-alternate-light: #dcd5ca; --neodoc-table-alternate-dark: #202020; --neodoc-table-border-light: #b3aa9d; --neodoc-table-border-dark: #4a4a4a; --neodoc-table-border-width: 1px;"><tbody>
         <tr>
-        <th contenteditable="true" data-neodoc-header="" onmouseup="actualizarBotonesFormato()">Producto</th>
-        <th contenteditable="true" data-neodoc-header="" onmouseup="actualizarBotonesFormato()">Cantidad</th>
-        <th contenteditable="true" data-neodoc-header="" onmouseup="actualizarBotonesFormato()">Precio</th>
+        <th contenteditable="false" data-neodoc-header="" onmouseup="actualizarBotonesFormato()">Producto</th>
+        <th contenteditable="false" data-neodoc-header="" onmouseup="actualizarBotonesFormato()">Cantidad</th>
+        <th contenteditable="false" data-neodoc-header="" onmouseup="actualizarBotonesFormato()">Precio</th>
         </tr>
         <tr>
-        <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Cuaderno</td>
-        <td contenteditable="true" onmouseup="actualizarBotonesFormato()">3</td>
-        <td contenteditable="true" onmouseup="actualizarBotonesFormato()">4,50 €</td>
+        <td contenteditable="false" onmouseup="actualizarBotonesFormato()">Cuaderno</td>
+        <td contenteditable="false" onmouseup="actualizarBotonesFormato()">3</td>
+        <td contenteditable="false" onmouseup="actualizarBotonesFormato()">4,50 €</td>
         </tr>
         <tr>
-        <td contenteditable="true" onmouseup="actualizarBotonesFormato()">Bolígrafo</td>
-        <td contenteditable="true" onmouseup="actualizarBotonesFormato()">5</td>
-        <td contenteditable="true" onmouseup="actualizarBotonesFormato()">1,20 €</td>
+        <td contenteditable="false" onmouseup="actualizarBotonesFormato()">Bolígrafo</td>
+        <td contenteditable="false" onmouseup="actualizarBotonesFormato()">5</td>
+        <td contenteditable="false" onmouseup="actualizarBotonesFormato()">1,20 €</td>
         </tr>
       </tbody></table>
     </div>
@@ -3224,20 +3287,20 @@ body.dark .content.ecuacion i.acento {
   <div class="content ecuacion" data-info="{&quot;tipo&quot;: &quot;ecuacion&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
-      <div class="math" contenteditable="true" oninput="actualizarEcuacion(this)" onkeydown="manejarTeclaEcuacion(event, this)"><span class="math-text" contenteditable="true">v = </span><span class="dist dist-fraccion" contenteditable="false"><span class="dist-field" contenteditable="true"><span class="math-text" contenteditable="true">d</span></span><span class="dist-field" contenteditable="true"><span class="math-text" contenteditable="true">t</span></span></span><span class="math-text" contenteditable="true"></span></div>
+      <div class="math" contenteditable="false" oninput="actualizarEcuacion(this)" onkeydown="manejarTeclaEcuacion(event, this)"><span class="math-text" contenteditable="false">v = </span><span class="dist dist-fraccion" contenteditable="false"><span class="dist-field" contenteditable="false"><span class="math-text" contenteditable="false">d</span></span><span class="dist-field" contenteditable="false"><span class="math-text" contenteditable="false">t</span></span></span><span class="math-text" contenteditable="false"></span></div>
       <div class="panel-elementos">
                 <section class="grupo-elementos"><p aria-label="Mostrar u ocultar Estructuras" data-nombre-completo="Ecuaciones (estructuras)" role="button" tabindex="0"><input aria-label="Estructuras" class="grupo-elementos-toggle" type="checkbox">Estructuras</p><div class="elementos estructuras">
                   <button onclick="insertarEstructuras('fraccion', this.closest('.panel-elementos').previousElementSibling)" title="Fracción"><i class="fraccion"></i></button>
@@ -3406,21 +3469,21 @@ body.dark .content.ecuacion i.acento {
   <div class="content titulo" data-info="{&quot;tipo&quot;:&quot;titulo&quot;,&quot;nivel&quot;:&quot;2&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
       <div class="titulo" id="H2_3"></div>
-      <h2 contenteditable="true" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Imagen, multimedia e iframe</h2>
+      <h2 contenteditable="false" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Imagen, multimedia e iframe</h2>
     </div>
   </div>
 </div></div>
@@ -3428,16 +3491,16 @@ body.dark .content.ecuacion i.acento {
   <div class="content imagen" data-info="{&quot;tipo&quot;:&quot;imagen&quot;,&quot;contenido&quot;:&quot;base64&quot;,&quot;accionImagen&quot;:&quot;visor&quot;}" id="elem-5tt1gs6ev">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido" style="">
@@ -3450,16 +3513,16 @@ body.dark .content.ecuacion i.acento {
   <div class="content multimedia" data-info="{&quot;tipo&quot;:&quot;multimedia&quot;,&quot;contenido&quot;:&quot;base64&quot;}" id="elem-ewxdbhwnb">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido" style="">
@@ -3472,16 +3535,16 @@ body.dark .content.ecuacion i.acento {
   <div class="content multimedia" data-info="{&quot;tipo&quot;:&quot;multimedia&quot;,&quot;contenido&quot;:&quot;url&quot;}" id="elem-6ky53bl7v">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido" style="">
@@ -3494,16 +3557,16 @@ body.dark .content.ecuacion i.acento {
   <div class="content multimedia" data-info="{&quot;tipo&quot;:&quot;multimedia&quot;,&quot;contenido&quot;:&quot;url&quot;}" id="elem-vkgazt4is">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido" style="">
@@ -3516,21 +3579,21 @@ body.dark .content.ecuacion i.acento {
   <div class="content titulo" data-info="{&quot;tipo&quot;:&quot;titulo&quot;,&quot;nivel&quot;:&quot;2&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
       <div class="titulo" id="H2_4"></div>
-      <h2 contenteditable="true" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Código y personalizado</h2>
+      <h2 contenteditable="false" onkeyup="UpdateTitulos()" onmouseup="actualizarBotonesFormato()">Código y personalizado</h2>
     </div>
   </div>
 </div></div>
@@ -3538,16 +3601,16 @@ body.dark .content.ecuacion i.acento {
   <div class="code content" data-info="{&quot;tipo&quot;: &quot;code&quot;, &quot;lenguaje&quot;: &quot;javascript&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido">
@@ -3555,9 +3618,9 @@ body.dark .content.ecuacion i.acento {
       <div class="Codigo">
         <div class="titulo">Código JavaScript</div>
         <div class="copy"><button onclick="CopyCode(this)" type="button">Copiar</button></div>
-<pre><code class="hljs javascript language-javascript" contenteditable="true" onblur="limpiarContenido0(this); hljs.highlightElement(this);" onfocus="limpiarContenido0(this)" onkeydown="manejarTab(event, this)"><span class="hljs-keyword">const</span> total = [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>].<span class="function_ hljs-title">reduce</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a + b, <span class="hljs-number">0</span>);
+<pre><code class="hljs javascript language-javascript" contenteditable="false" onblur="limpiarContenido0(this); hljs.highlightElement(this);" onfocus="limpiarContenido0(this)" onkeydown="manejarTab(event, this)"><span class="hljs-keyword">const</span> total = [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>].<span class="function_ hljs-title">reduce</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a + b, <span class="hljs-number">0</span>);
 <span class="hljs-variable language_">console</span>.<span class="function_ hljs-title">log</span>(total);</code></pre>
-        <div class="leyenda" contenteditable="true" onblur="limpiarContenido0(this)">Suma de una lista de valores.</div>
+        <div class="leyenda" contenteditable="false" onblur="limpiarContenido0(this)">Suma de una lista de valores.</div>
       </div>
     </div>
   </div>
@@ -3566,16 +3629,16 @@ body.dark .content.ecuacion i.acento {
   <div class="content custom" data-info="{&quot;tipo&quot;:&quot;custom&quot;,&quot;nombrePlantilla&quot;:&quot;Tarjeta informativa&quot;}">
     
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" draggable="true" ondragstart="iniciarArrastre(event)"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>
     <div class="contenido" onclick="openTap(this, 'Contenido')"><div class="demo-card" style="padding:16px;border:1px solid #608b8c;border-radius:12px;text-align:center"><strong>✦ Tarjeta personalizada</strong><p>Ejemplo de HTML y CSS propio.</p></div></div>
@@ -3589,33 +3652,33 @@ body.dark .content.ecuacion i.acento {
       <div class="popup-backdrop" onclick="closeTap(this)"></div>
       <div class="AddTap">
         <div class="barraTitulo">
-          <p>Añadir</p><i class="close" onclick="closeTap(this)"></i>
+          <p>Añadir</p><i role="button" tabindex="0" class="close" onclick="closeTap(this)"></i>
         </div>
         <div class="info">
           <!-- Distribución -->
           <p>Distribución</p>
           <div class="distribucion">
-            <p onclick="addContent('col11')"><i class="col11"></i></p>
-            <p onclick="addContent('col21')"><i class="col21"></i></p>
-            <p onclick="addContent('col12')"><i class="col12"></i></p>
-            <p onclick="addContent('col111')"><i class="col111"></i></p>
-            <p onclick="addContent('col112')"><i class="col112"></i></p>
-            <p onclick="addContent('col121')"><i class="col121"></i></p>
-            <p onclick="addContent('col211')"><i class="col211"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col11')"><i class="col11"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col21')"><i class="col21"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col12')"><i class="col12"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col111')"><i class="col111"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col112')"><i class="col112"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col121')"><i class="col121"></i></p>
+            <p role="button" tabindex="0" onclick="addContent('col211')"><i class="col211"></i></p>
           </div>
           <!-- Contenido -->
           <p>Contenido</p>
           <div class="contenido">
-            <p onclick="addContent('titulo')"><i class="titulo"></i>Título</p>
-            <p onclick="addContent('texto')"><i class="texto"></i>Texto</p>
-            <p onclick="addContent('desplegable')"><i class="arrow"></i>Desplegable</p>
-            <p onclick="addContent('tabla')"><i class="tabla"></i>Tabla</p>
-            <p onclick="addContent('ecuacion')"><i class="ecuacion"></i>Ecuación</p>
-            <p onclick="addContent('iframe')"><i class="iframe"></i>Iframe</p>
-            <p onclick="addContent('imagen')"><i class="imagen"></i>Imagen</p>
-            <p onclick="addContent('multimedia')"><i class="multimedia"></i>Multimedia</p>
-            <p onclick="addContent('codigo')"><i class="codigo"></i>Código</p>
-            <p onclick="addContent('custom')"><i class="custom"></i>Personalizado</p>
+            <p role="button" tabindex="0" onclick="addContent('titulo')"><i class="titulo"></i>Título</p>
+            <p role="button" tabindex="0" onclick="addContent('texto')"><i class="texto"></i>Texto</p>
+            <p role="button" tabindex="0" onclick="addContent('desplegable')"><i class="arrow"></i>Desplegable</p>
+            <p role="button" tabindex="0" onclick="addContent('tabla')"><i class="tabla"></i>Tabla</p>
+            <p role="button" tabindex="0" onclick="addContent('ecuacion')"><i class="ecuacion"></i>Ecuación</p>
+            <p role="button" tabindex="0" onclick="addContent('iframe')"><i class="iframe"></i>Iframe</p>
+            <p role="button" tabindex="0" onclick="addContent('imagen')"><i class="imagen"></i>Imagen</p>
+            <p role="button" tabindex="0" onclick="addContent('multimedia')"><i class="multimedia"></i>Multimedia</p>
+            <p role="button" tabindex="0" onclick="addContent('codigo')"><i class="codigo"></i>Código</p>
+            <p role="button" tabindex="0" onclick="addContent('custom')"><i class="custom"></i>Personalizado</p>
             <div id="custom-template-options" class="custom-template-options" aria-label="Plantillas personalizadas" hidden=""></div>
           </div>
         </div>
@@ -3628,7 +3691,7 @@ body.dark .content.ecuacion i.acento {
             <button class="editor-tab-diseno" type="button" role="tab" aria-selected="false" onclick="cambiarPestanaEditor('Diseno')">Diseño</button>
             <button type="button" role="tab" aria-selected="true" onclick="cambiarPestanaEditor('Editar')">Editar</button>
           </div>
-          <i class="close" onclick="closeTap(this)"></i>
+          <i role="button" tabindex="0" class="close" onclick="closeTap(this)"></i>
         </div>
         <div class="info">
           <form class="form_editar">
@@ -3685,7 +3748,7 @@ body.dark .content.ecuacion i.acento {
             <button class="editor-tab-diseno" type="button" role="tab" aria-selected="false" onclick="cambiarPestanaEditor('Diseno')">Diseño</button>
             <button type="button" role="tab" aria-selected="false" onclick="cambiarPestanaEditor('Editar')">Editar</button>
           </div>
-          <i class="close" onclick="closeTap(this)"></i>
+          <i role="button" tabindex="0" class="close" onclick="closeTap(this)"></i>
         </div>
         <div class="info">
           <form><!-- Contenido --></form>
@@ -3699,13 +3762,13 @@ body.dark .content.ecuacion i.acento {
             <button class="editor-tab-diseno" type="button" role="tab" aria-selected="true" onclick="cambiarPestanaEditor('Diseno')">Diseño</button>
             <button type="button" role="tab" aria-selected="false" onclick="cambiarPestanaEditor('Editar')">Editar</button>
           </div>
-          <i class="close" onclick="closeTap(this)"></i>
+          <i role="button" tabindex="0" class="close" onclick="closeTap(this)"></i>
         </div>
         <div class="info"><form class="form_table_design"></form></div>
       </div>
       <div class="ConfigTap">
         <div class="barraTitulo">
-          <p>Configuración</p><i class="close" onclick="closeTap(this)"></i>
+          <p>Configuración</p><i role="button" tabindex="0" class="close" onclick="closeTap(this)"></i>
         </div>
         <div class="info">
           <label class="historial-config-control">
@@ -3816,7 +3879,7 @@ body.dark .content.ecuacion i.acento {
               <span class="historial-tooltip" id="historial-info-tooltip" role="tooltip"><strong>Cómo funciona el historial</strong>Las revisiones recientes se guardan por cada cambio. Cuando hay muchas, las antiguas se conservan como puntos de guardado cada 10 minutos. Si falta espacio, el intervalo aumenta. Restaurar una revisión se registra como un paso más, no como volver atrás.</span>
             </button>
           </div>
-          <i class="close" onclick="closeTap(this)"></i>
+          <i role="button" tabindex="0" class="close" onclick="closeTap(this)"></i>
         </div>
         <div class="info">
           <div class="historial-revisiones" aria-live="polite" aria-label="Cambios del documento"><button type="button" class="historial-item actual" aria-label="Modificación, 2026/11/24 20:04.14. Restaurar esta revisión."><span class="historial-item-texto"><span class="historial-item-tipo">Modificada sección de tabla.</span><span class="historial-item-fecha">2026/11/24 20:04.14</span></span><span class="historial-item-accion">Actual</span></button><button type="button" class="historial-item" aria-label="Modificación, 2026/11/24 20:04.01. Restaurar esta revisión."><span class="historial-item-texto"><span class="historial-item-tipo">Modificada sección de multimedia.</span><span class="historial-item-fecha">2026/11/24 20:04.01</span></span><span class="historial-item-accion">Restaurar</span></button><button type="button" class="historial-item" aria-label="Modificación, 2026/11/24 20:03.56. Restaurar esta revisión."><span class="historial-item-texto"><span class="historial-item-tipo">Modificada sección de imagen.</span><span class="historial-item-fecha">2026/11/24 20:03.56</span></span><span class="historial-item-accion">Restaurar</span></button><button type="button" class="historial-item" aria-label="Estado inicial, 2026/11/24 19:53.32. Restaurar esta revisión."><span class="historial-item-texto"><span class="historial-item-tipo">Estado inicial</span><span class="historial-item-fecha">2026/11/24 19:53.32</span></span><span class="historial-item-accion">Restaurar</span></button></div>
@@ -4222,16 +4285,16 @@ const historialEcuaciones = new WeakMap();
 
 const content_conf_ajustes=`
     <div class="conf">
-      <i class="add" onclick="openTap(this, 'Add')"></i>
+      <i class="add" role="button" tabindex="0" aria-label="Añadir bloque" onclick="openTap(this, 'Add')"></i>
       <i class="drag" ondragstart="iniciarArrastre(event)" draggable="true"></i>
     </div>
     <div class="ajustes">
-      <i class="configuracion" onclick="abrirConfig(this)"></i>
+      <i class="configuracion" role="button" tabindex="0" aria-label="Opciones del bloque" onclick="abrirConfig(this)"></i>
       <div class="configura">
-        <div onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
+        <div role="button" tabindex="0" onclick="openTap(this, 'Editar')"><i class="edit"></i> Editar</div>
         <div onclick="openTap(this, 'Contenido')"><i class="conte"></i> Contenido</div>
-        <div onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
-        <div onclick="delContent(this)"><i class="del"></i> Borrar</div>
+        <div role="button" tabindex="0" onclick="duplicarContenido(this)"><i class="dup"></i> Duplicar</div>
+        <div role="button" tabindex="0" onclick="delContent(this)"><i class="del"></i> Borrar</div>
       </div>
     </div>`,
 
@@ -4619,30 +4682,29 @@ Cambiar menu lateral
 -----------------------------------------
 */
 // Finalidad: Alterna la apertura del menú lateral según el tamaño de pantalla.
+const anchoMenuEscritorio = matchMedia("(min-width: 900px)");
+
+function actualizarEstadoMenu() {
+  const menuLateral = document.getElementById("menu-lateral");
+  const abierto = menuLateral.classList.contains(anchoMenuEscritorio.matches ? "active" : "mob-active");
+  const boton = menuLateral.querySelector(".btn-desplegable");
+  const panel = menuLateral.querySelector(".panel-menu");
+  if (!abierto && panel.contains(document.activeElement)) boton.focus();
+  boton.setAttribute("aria-expanded", String(abierto));
+  panel.inert = !abierto;
+}
+
 function toggleMenu() {
-  if (window.innerWidth > 900) {
-    document.getElementById('menu-lateral').classList.toggle('active');
-  } else {
-    let menuLateral = document.getElementById('menu-lateral');
-    menuLateral.classList.toggle('mob-active');
-    
-    if (menuLateral.classList.contains('mob-active')) {
-      window.addEventListener('resize', handleResize);
-    } else {
-      window.removeEventListener('resize', handleResize);
-    }
-  }
+  document.getElementById("menu-lateral").classList.toggle(anchoMenuEscritorio.matches ? "active" : "mob-active");
+  actualizarEstadoMenu();
 }
-// Evento (Que el ancho del navegador sea mayor a 900px)
-// Finalidad: Adapta el menú lateral cuando cambia el tamaño de la ventana.
-function handleResize() {
-  let menuLateral = document.getElementById('menu-lateral');
-  if (window.innerWidth > 900) {
-    menuLateral.classList.add('active');
-    menuLateral.classList.remove('mob-active');
-    window.removeEventListener('resize', handleResize);
-  }
-}
+
+anchoMenuEscritorio.addEventListener("change", () => {
+  document.getElementById("menu-lateral").classList.remove("mob-active");
+  actualizarEstadoMenu();
+});
+actualizarEstadoMenu();
+
 
 
 
@@ -4717,6 +4779,8 @@ async function SaveHTML() {
     alert("No se pudo guardar la página completa porque falta contenido en caché. Vuelve a cargar el elemento e inténtalo de nuevo.");
     return;
   }
+  aplicarEditabilidad(documento, false);
+  documento.querySelector("#historial-conflicto").hidden = true;
   const content = '<!DOCTYPE html>\n' + documento.outerHTML;
 
   if (window.showSaveFilePicker) {
@@ -4750,22 +4814,27 @@ async function SaveHTML() {
   setTimeout(() => URL.revokeObjectURL(url), 1_000);
 }
 // Finalidad: Activa el modo de edición del documento.
-function ModeEditar() {
-  document.body.classList.remove('View');
-  document.body.classList.add('Edit');
-  document.querySelectorAll('[contenteditable]').forEach((elemento) => {
-    const esContenedorEstructural = elemento.classList.contains('dist') ||
-      elemento.classList.contains('indices');
-    elemento.setAttribute('contenteditable', esContenedorEstructural ? 'false' : 'true');
+function aplicarEditabilidad(raiz, editar) {
+  raiz.querySelectorAll("[contenteditable]").forEach((elemento) => {
+    const estructural = elemento.matches(".dist, .indices");
+    const valor = String(editar && !estructural);
+    if (elemento.getAttribute("contenteditable") !== valor) {
+      elemento.setAttribute("contenteditable", valor);
+    }
   });
 }
-// Finalidad: Activa el modo de visualización del documento.
+
+function ModeEditar() {
+  document.body.classList.replace("View", "Edit");
+  aplicarEditabilidad(document, true);
+}
+
 function ModeView() {
-  document.body.classList.remove('Edit');
-  document.body.classList.add('View');
-  document.querySelectorAll('[contenteditable]').forEach((elemento) => {elemento.setAttribute('contenteditable', 'false');});
+  document.body.classList.replace("Edit", "View");
+  aplicarEditabilidad(document, false);
   aplicarSeleccionNeoDoc([]);
 }
+
 
 
 
@@ -4952,11 +5021,8 @@ function compactarVideoSinPistaVisual(video) {
   if (!contenido || video.videoWidth || video.videoHeight) return;
 
   const audio = document.createElement("audio");
-  audio.controls = video.controls;
-  audio.autoplay = video.autoplay;
-  audio.loop = video.loop;
+  Array.from(video.attributes).forEach(({ name, value }) => audio.setAttribute(name, value));
   audio.muted = video.muted;
-  audio.preload = video.preload;
   const fuentes = video.querySelectorAll("source");
   if (fuentes.length) {
     fuentes.forEach((fuente) => audio.appendChild(fuente.cloneNode(true)));
@@ -5010,7 +5076,12 @@ function observarVideoParaCompactar(video) {
 // Finalidad: Observa videos del contenido.
 function observarVideosDelContenido(contenido) {
   const selector = contenido.matches(".content.multimedia, .content.video") ? "video" : ".content.multimedia video, .content.video video";
-  contenido.querySelectorAll(selector).forEach(observarVideoParaCompactar);
+  contenido.querySelectorAll(selector).forEach((video) => {
+    const fuente = video.querySelector("source[src]") || video;
+    const tipo = fuente.getAttribute("type") || obtenerTipoFuenteMultimedia(fuente.getAttribute("src") || "", video.closest(".content"));
+    if (/^audio\//i.test(tipo)) compactarVideoSinPistaVisual(video);
+    else observarVideoParaCompactar(video);
+  });
 }
 
 // Finalidad: Obtiene método fuente multimedia.
@@ -5825,7 +5896,13 @@ function clonarParaPortapapelesNeoDoc(elemento) {
   originales.forEach((original, indice) => {
     if (!original.classList.contains("unloaded")) return;
     const cache = elementCache.get(original.id);
-    if (cache && copias[indice]) copias[indice].innerHTML = cache.html;
+    if (!cache || !copias[indice]) return;
+    copias[indice].innerHTML = cache.html;
+    const area = copias[indice].querySelector(".contenido");
+    if (area) {
+      area.style.minHeight = cache.originalContentMinHeight;
+      area.style.transition = cache.originalContentTransition;
+    }
   });
   copia.classList.remove("neodoc-selected", "unloaded", "openConfig", "section-drag-hover", "moveUP", "moveDOWN");
   copia.querySelectorAll(".neodoc-selected, .unloaded, .openConfig, .section-drag-hover, .moveUP, .moveDOWN").forEach((nodo) => {
@@ -6760,15 +6837,20 @@ function crearSeccionMultimediaArrastrada(event, metodo, fuente, tipoArchivo = "
 }
 
 // Finalidad: Establece fuente multimedia.
-function establecerFuenteMultimedia(contenido, fuente, tipoArchivo, metodo) {
-  contenido.dataset.info = JSON.stringify({ tipo: "multimedia", contenido: metodo });
-  const reproductor = document.createElement("video");
+function crearReproductorMultimedia(fuente, tipo) {
+  const reproductor = document.createElement(/^audio\//i.test(tipo) ? "audio" : "video");
   const source = document.createElement("source");
   reproductor.controls = true;
   source.src = fuente;
-  source.type = tipoArchivo || obtenerTipoFuenteMultimedia(fuente, contenido);
+  if (tipo) source.type = tipo;
   reproductor.appendChild(source);
-  contenido.querySelector(".contenido").replaceChildren(reproductor);
+  return reproductor;
+}
+
+function establecerFuenteMultimedia(contenido, fuente, tipoArchivo, metodo) {
+  contenido.dataset.info = JSON.stringify({ tipo: "multimedia", contenido: metodo });
+  const tipo = tipoArchivo || obtenerTipoFuenteMultimedia(fuente, contenido);
+  contenido.querySelector(".contenido").replaceChildren(crearReproductorMultimedia(fuente, tipo));
   observeNewContent(contenido);
   asegurarControlesArrastreSeccion(contenido.closest(".seccion"));
 }
@@ -7179,6 +7261,17 @@ function cerrarConfig(event) {
 }
 
 // Finalidad: Abre el menú contextual de un contenido usando un único controlador reutilizable.
+document.addEventListener("keydown", (event) => {
+  const control = event.target.closest?.("#conten [role=button][onclick][tabindex], #menuTap [role=button][onclick][tabindex]");
+  if (control && ["Enter", " "].includes(event.key)) {
+    event.preventDefault();
+    control.click();
+  }
+  if (event.key === "Escape" && document.querySelector("#menuTap.active")) {
+    closeTap(document.querySelector("#menuTap"));
+  }
+});
+
 function abrirConfig(elemento) {
   const configura = elemento.parentElement;
   const contenido = configura?.closest(".content");
@@ -7202,6 +7295,7 @@ Ventana emergente
 -----------------------------------------
 */
 let marcador = ""; // Añadir selección
+let controlAntesDeAbrirPanel = null;
 // Finalidad: Crea selector lenguaje código.
 function crearSelectorLenguajeCodigo(lenguaje) {
   const opcionesHTML = languages.map((lang) => {
@@ -7544,15 +7638,18 @@ function aplicarDimensionesTabla(contenido, form) {
   const tabla = contenido.matches?.("table") ? contenido : contenido.querySelector("table");
   const tbody = tabla?.tBodies[0] || tabla?.querySelector("tbody");
   if (!tabla || !tbody) return;
-  if (tabla.dataset.neodocFitWidth !== undefined) {
-    delete tabla.dataset.neodocFitWidth;
-    tabla.style.removeProperty("width");
-    tabla.style.removeProperty("min-width");
-  }
   // Finalidad: Ajusta una medida al intervalo mínimo y máximo permitido.
   const ajustar = (valor, input) => Math.max(Number(input?.min) || 1, Math.min(Number(input?.max) || 999, parseInt(valor, 10) || 1));
   const columnas = ajustar(form.elements.cols?.value ?? contarColumnasTabla(tabla), form.elements.cols);
   const filas = ajustar(form.elements.rows?.value ?? tbody.rows.length, form.elements.rows);
+  const celdasEliminadas = Array.from(tbody.rows).flatMap((fila, indice) =>
+    Array.from(fila.cells).slice(indice >= filas ? 0 : columnas)
+  );
+  const contieneDatos = celdasEliminadas.some((celda) =>
+    celda.textContent.trim() || celda.querySelector("img, video, audio, iframe, svg, canvas, hr")
+  );
+  if (contieneDatos && !confirm("Se eliminarán celdas con contenido. ¿Reducir la tabla?")) return false;
+
   const modoManual = form.elements.tableSizingMode
     ? form.elements.tableSizingMode.value === "manual"
     : tabla.dataset.neodocTableSizing === "manual";
@@ -7563,9 +7660,14 @@ function aplicarDimensionesTabla(contenido, form) {
     leerDimensionDesdeFormulario(form, "rowHeight", indice, "fila")) : [];
   if (modoManual && [...dimensionesColumnas, ...dimensionesFilas].some((dimension) => !dimension)) {
     alert("Escribe una medida válida, por ejemplo 45% de ancho o 120px de alto. Las alturas deben ir en px y el mínimo no puede superar al máximo.");
-    return;
+    return false;
   }
 
+  if (tabla.dataset.neodocFitWidth !== undefined) {
+    delete tabla.dataset.neodocFitWidth;
+    tabla.style.removeProperty("width");
+    tabla.style.removeProperty("min-width");
+  }
   if (modoManual) activarTamanoManualTabla(tabla);
   while (tbody.rows.length < filas) {
     const fila = tbody.insertRow();
@@ -8322,6 +8424,7 @@ function openTap(element, tipo, forzarPestana = false) {
     menuTap.classList.toggle("edicion-tabla", infoMarcador.tipo === "tabla");
     menuTap.classList.add(tipo, "active");
     marcador = nuevoMarcador; // Declarar elemento
+    if (element !== marcador) controlAntesDeAbrirPanel = element;
 
     // Cierra el menu de la seccion
     // Borra cualquiera que contenga esa clase
@@ -8601,6 +8704,11 @@ function openTap(element, tipo, forzarPestana = false) {
       }
       renderCustomStyleControls();
     }
+    const panel = Array.from(menuTap.children).find((tab) => tab.className.endsWith("Tap") && tab.getClientRects().length);
+    const objetivo = element === marcador
+      ? panel?.querySelector('.editor-tabs [aria-selected="true"]')
+      : panel?.querySelector(".barraTitulo .close");
+    objetivo?.focus({ preventScroll: true });
   }
 }
 // Finalidad: Aplica los cambios del panel de edición al contenido seleccionado.
@@ -8691,6 +8799,12 @@ function closeTap(element) {
   if (lectorBase64Activo?.readyState === FileReader.LOADING) lectorBase64Activo.abort();
   lectorBase64Activo = null;
   element.closest("#menuTap").className = "";
+  const control = controlAntesDeAbrirPanel;
+  controlAntesDeAbrirPanel = null;
+  if (control?.isConnected) {
+    const destino = control.closest(".configura")?.previousElementSibling || control;
+    if (destino.matches("button, a[href], [tabindex]")) destino.focus({ preventScroll: true });
+  }
   marcador = ""; // Desdeclarar elemento
   const form = document.querySelector("#menuTap > div.ContenidoTap > div.info form");
   form?.removeEventListener("input", formularioModificado);
@@ -9133,19 +9247,18 @@ function AccionContenidoTap(boton, event) {
       marcador.setAttribute("data-info", JSON.stringify(info));
 
       // Crear nuevo encabezado
-      const texto = encabezadoActual.textContent;
-      const nuevoEncabezado = document.createElement(nivel);
-      nuevoEncabezado.contentEditable = "true";
-      nuevoEncabezado.onmouseup = actualizarBotonesFormato;
-      nuevoEncabezado.onkeyup = UpdateTitulos;
-      nuevoEncabezado.textContent = texto;
-      contenidoDiv.replaceChild(nuevoEncabezado, encabezadoActual);
+      if (encabezadoActual.localName !== nivel) {
+        const nuevoEncabezado = document.createElement(nivel);
+        Array.from(encabezadoActual.attributes).forEach(({ name, value }) => nuevoEncabezado.setAttribute(name, value));
+        nuevoEncabezado.append(...encabezadoActual.childNodes);
+        encabezadoActual.replaceWith(nuevoEncabezado);
+      }
 
       UpdateTitulos();
       break;
     }
     case "tabla": {
-      aplicarDimensionesTabla(marcador, form);
+      if (aplicarDimensionesTabla(marcador, form) === false) return;
       break;
     }
     case "iframe": {
@@ -9173,14 +9286,16 @@ function AccionContenidoTap(boton, event) {
       break;
     }
     case "imagen": {
-      const tipo = ["url", "ruta", "base64"].find(t => data.get("img-" + t));
+      const tipo = ["url", "ruta", "base64"].find(metodo =>
+        data.get(metodo === "base64" ? "base64" : `img-${metodo}`)?.trim()
+      );
       info.contenido = tipo || "";
       info.accionImagen ||= "visor";
       marcador.setAttribute("data-info", JSON.stringify(info));
       contenidoDiv.replaceChildren();
       if (tipo) {
         const imagen = document.createElement("img");
-        imagen.src = tipo === "base64" ? data.get("base64") : data.get("img-" + tipo);
+        imagen.src = data.get(tipo === "base64" ? "base64" : `img-${tipo}`).trim();
         imagen.alt = "Imagen";
         contenidoDiv.appendChild(imagen);
         aplicarAccionImagenContenido(marcador);
@@ -9209,15 +9324,8 @@ function AccionContenidoTap(boton, event) {
       marcador.setAttribute("data-info", JSON.stringify(info));
       contenidoDiv.replaceChildren();
       if (tipo) {
-        const reproductor = document.createElement("video");
-        const source = document.createElement("source");
-        source.src = fuente;
-        const mimeType = obtenerTipoFuenteMultimedia(fuente, marcador);
-        if (mimeType) source.type = mimeType;
-        reproductor.controls = true;
-        reproductor.appendChild(source);
-        contenidoDiv.appendChild(reproductor);
-        observarVideosDelContenido(marcador);
+        contenidoDiv.appendChild(crearReproductorMultimedia(fuente, obtenerTipoFuenteMultimedia(fuente, marcador)));
+        observeNewContent(marcador);
       } else {
         contenidoDiv.innerHTML = `<div class="preview" onclick="openTap(this,'Contenido')"><div class="icon"></div><p>Multimedia</p></div>`;
       }
@@ -9360,9 +9468,11 @@ Duplicar content
 function duplicarContenido(elemento) {
   const original = elemento.closest(".content");
   if (!original) return;
-  const copia = original.cloneNode(true);
-  original.parentNode.insertBefore(copia, original.nextSibling);
-  observeNewContent(copia);
+  const copia = clonarParaPortapapelesNeoDoc(original);
+  corregirIdsDuplicados(copia);
+  original.after(copia);
+  testContenedor();
+  [copia, ...copia.querySelectorAll(".content")].forEach(observeNewContent);
 }
 
 
@@ -9477,7 +9587,10 @@ function UpdateTitulos() {
   indiceTitulos.replaceChildren(fragmento);
 }
 // Ejecuta UpdateTitulos() cuando el DOM haya sido completamente cargado
-document.addEventListener('DOMContentLoaded', function() {UpdateTitulos();});
+document.addEventListener("DOMContentLoaded", UpdateTitulos);
+document.querySelector("#conten").addEventListener("input", (event) => {
+  if (event.target.closest?.(".content.titulo")) UpdateTitulos();
+});
 
 
 
@@ -10250,7 +10363,10 @@ document.addEventListener('mousedown', (event) => {
 });
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', inicializarEcuaciones);
+  document.addEventListener('DOMContentLoaded', () => {
+    inicializarEcuaciones();
+    if (document.body.classList.contains("View")) aplicarEditabilidad(document, false);
+  });
 } else {
   inicializarEcuaciones();
 }
@@ -10453,12 +10569,16 @@ window.addEventListener("resize", () => {
 // Guardar el contenido HTML de un elemento
 // Finalidad: Guarda una representación ligera del contenido para poder descargarlo temporalmente.
 function saveContentCache(element) {
-  if (!element.id) {
-    element.id = 'elem-' + Math.random().toString(36).slice(2, 11);
+  if (!element.id || (elementCache.has(element.id) && elementCache.get(element.id).elemento !== element)) {
+    let id;
+    do { id = "elem-" + Math.random().toString(36).slice(2, 11); }
+    while (elementCache.has(id) || document.getElementById(id));
+    element.id = id;
   }
   const areaContenido = element.querySelector(".contenido");
   const cacheAnterior = elementCache.get(element.id);
   elementCache.set(element.id, {
+    elemento: element,
     html: element.innerHTML,
     outerHtml: element.outerHTML,
     contentHeight: areaContenido?.getBoundingClientRect().height || elementCache.get(element.id)?.contentHeight || 0,
@@ -10521,6 +10641,7 @@ function restoreContent(element) {
 
   if (cached) {
     element.innerHTML = cached.html;
+    aplicarEditabilidad(element, document.body.classList.contains("Edit"));
     const areaContenido = element.querySelector(".contenido");
     if (areaContenido) {
       areaContenido.style.transition = "none";
@@ -10656,100 +10777,54 @@ Añadir y elimiar tabs
 */
 // Finalidad: Inserta o retira sangría al pulsar Tab en un bloque de código.
 function manejarTab(event, element) {
-  if (event.key === "Tab" && !event.ctrlKey && !event.altKey) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del Tab
-    let seleccion = window.getSelection();
+  if (event.key !== "Tab" || event.ctrlKey || event.altKey || event.metaKey || !element.isContentEditable) return;
+  const seleccion = window.getSelection();
+  if (!seleccion?.rangeCount) return;
+  const rango = seleccion.getRangeAt(0);
+  if (!element.contains(rango.commonAncestorContainer)) return;
+  const soloCursor = rango.collapsed;
 
-    // Mayus+Tab (Quitar espacios de la primera linea)
-    if (event.key === "Tab" && event.shiftKey) {
-      
-      let inicio = 0;
-      const rango = seleccion.getRangeAt(0);
-      let nuevoContenido = "";
-      let NewRang = document.createRange();
-      let NewRangoStart, NewRangoEnd, countSpace = 0;
-      
-      // Recorrer lineas
-      document.activeElement.textContent.split('\n').forEach((linea) => {
-        const fin = inicio + linea.length;
-        linea=linea.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        // Si parte de la línea está seleccionada
-        if ((rango.startOffset <= inicio && inicio <= rango.endOffset) || (inicio <= rango.startOffset && rango.startOffset <= fin) || (rango.startOffset >= inicio && rango.endOffset <= fin) || (inicio >= rango.startOffset && fin <= rango.endOffset)) {
-          // Condicional si primera linea es `  `
-          if (linea.substring(0, 2) == `  `) {
-            nuevoContenido += linea.substring(2)+'\n';
-            countSpace -= 2;
-          // Revisar, contar y borrar los espacios
-          } else {
-            nuevoContenido += linea.replace(/^\s+/, '')+'\n';
-            countSpace -= linea.length - linea.replace(/^\s+/, '').length;
-          }
-          if (!NewRangoStart) {NewRangoStart=inicio;}
-          NewRangoEnd=fin+countSpace;
-        } else {
-          // Conservar las líneas que no cumplen la condición sin modificaciones
-          nuevoContenido += linea+'\n';
-        }
-        inicio = fin + 1;
-      });
-
-      // Establecer el nuevo contenido en el elemento
-      element.innerHTML = nuevoContenido.slice(0, -1);
-
-      // Establecer el inicio y fin del nuevo rango
-      NewRang.setStart(element.firstChild, NewRangoStart);
-      NewRang.setEnd(element.firstChild, NewRangoEnd);
-      // Limpiar la selección actual antes de agregar el nuevo rango
-      seleccion.removeAllRanges();
-      // Agregar el nuevo rango a la selección actual
-      seleccion.addRange(NewRang);
-
-    } else if (event.key === "Tab") {
-      // Verificar si hay varias líneas seleccionadas
-      if (!seleccion.isCollapsed ) {
-
-        let inicio = 0;
-        const rango = seleccion.getRangeAt(0);
-        let nuevoContenido = "";
-        let NewRang = document.createRange();
-        let NewRangoStart, NewRangoEnd, countSpace = 0;
-        
-        // Recorrer lineas
-        document.activeElement.textContent.split('\n').forEach((linea) => {
-          const fin = inicio + linea.length;
-          linea=linea.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-          // Si parte de la línea está seleccionada
-          if ((rango.startOffset <= inicio && inicio <= rango.endOffset) || (inicio <= rango.startOffset && rango.startOffset <= fin) || (rango.startOffset >= inicio && rango.endOffset <= fin) || (inicio >= rango.startOffset && fin <= rango.endOffset)) {
-            // Añadir espacio al principio de la línea que cumple la condición
-            nuevoContenido += `  `+linea+'\n';
-            countSpace += 2;
-            if (countSpace == 2) {NewRangoStart=inicio;}
-            NewRangoEnd=fin+countSpace;
-          } else {
-            // Conservar las líneas que no cumplen la condición sin modificaciones
-            nuevoContenido += linea+'\n';
-          }
-          inicio = fin + 1;
-        });
-
-        // Establecer el nuevo contenido en el elemento
-        element.innerHTML = nuevoContenido.slice(0, -1);
-
-        // Establecer el inicio y fin del nuevo rango
-        NewRang.setStart(element.firstChild, NewRangoStart);
-        NewRang.setEnd(element.firstChild, NewRangoEnd);
-        // Limpiar la selección actual antes de agregar el nuevo rango
-        seleccion.removeAllRanges();
-        // Agregar el nuevo rango a la selección actual
-        seleccion.addRange(NewRang);
-
-      } else {
-        // Si no hay varias líneas seleccionadas, simplemente agregar 4 espacios
-        document.execCommand('insertHTML', false, '  ');
-      }
-    }
+  const sangria = "  ";
+  event.preventDefault();
+  if (soloCursor && !event.shiftKey) {
+    document.execCommand("insertText", false, sangria);
+    return;
   }
+
+  const prefijo = document.createRange();
+  prefijo.selectNodeContents(element);
+  const medir = (nodo, offset) => {
+    prefijo.setEnd(nodo, offset);
+    return prefijo.toString().length;
+  };
+  const inicio = medir(rango.startContainer, rango.startOffset);
+  const fin = medir(rango.endContainer, rango.endOffset);
+  const texto = element.textContent;
+  const comienzo = inicio === 0 ? 0 : texto.lastIndexOf("\n", inicio - 1) + 1;
+  const ultima = texto.indexOf("\n", fin > inicio && texto[fin - 1] === "\n" ? fin - 1 : fin);
+  const limite = ultima < 0 ? texto.length : ultima;
+  const lineas = texto.slice(comienzo, limite).split("\n");
+  const modificadas = lineas.map((linea) => event.shiftKey
+    ? linea.replace(/^(?:  |\t| {1,4})/, "")
+    : sangria + linea);
+
+  if (lineas.every((linea, indice) => linea === modificadas[indice])) return;
+  const tramo = modificadas.join("\n");
+  const nodo = document.createTextNode(texto.slice(0, comienzo) + tramo + texto.slice(limite));
+  element.replaceChildren(nodo);
+  const nuevoRango = document.createRange();
+  if (soloCursor) {
+    const retirados = lineas[0].length - modificadas[0].length;
+    nuevoRango.setStart(nodo, Math.max(comienzo, inicio - retirados));
+    nuevoRango.collapse(true);
+  } else {
+    nuevoRango.setStart(nodo, comienzo);
+    nuevoRango.setEnd(nodo, comienzo + tramo.length);
+  }
+  seleccion.removeAllRanges();
+  seleccion.addRange(nuevoRango);
 }
+
 
 /*
 -----------------------------------------
@@ -10780,6 +10855,10 @@ const LIMITE_REVISIONES_HISTORIAL = 80;
 const LIMITE_CARACTERES_HISTORIAL = 2_000_000;
 const CLAVE_HISTORIAL_DOCUMENTO = `editor-historial-v1:${location.pathname}`;
 const CLAVE_HISTORIAL_ACTIVO = `editor-historial-activo-v1:${location.pathname}`;
+const CLAVE_BORRADOR_HISTORIAL = `editor-borrador-historial-v1:${location.pathname}`;
+let baseHistorialPersistido = null;
+let escrituraHistorialPendiente = null;
+let borradorHistorialRecuperado = false;
 let historialActivo = true;
 const PREFIJO_HISTORIAL_DOCUMENTO = "editor-historial-v1:";
 const PREFIJO_ACCESO_HISTORIAL = "editor-historial-acceso-v1:";
@@ -10918,32 +10997,58 @@ function recortarHistorialPersistido() {
 }
 
 // Finalidad: Guarda historial persistido.
+function guardarBorradorHistorial(datos) {
+  if (!datos) return;
+  try {
+    sessionStorage.setItem(CLAVE_BORRADOR_HISTORIAL, JSON.stringify({ base: baseHistorialPersistido, datos }));
+  } catch (error) {
+    document.querySelector("#historial-conflicto [role=status]").textContent =
+      "El navegador no puede conservar este borrador al cerrar la pestaña. Expórtalo para guardarlo.";
+    document.getElementById("historial-conflicto").hidden = false;
+    console.warn("No se pudo conservar un borrador en la pestaña.", error);
+  }
+}
+
 function guardarHistorialPersistido() {
-  if (!historialActivo) return false;
+  if (!historialActivo) return;
   try {
     recortarHistorialPersistido();
-    const datos = JSON.stringify({
-      version: 1,
-      contenidos: historialDocumento.contenidos,
-      estructura: historialDocumento.estructura,
-      acciones: historialDocumento.acciones,
-      posicionAcciones: historialDocumento.posicionAcciones,
-      estadoActual: historialDocumento.estadoActual,
-      revisionActual: historialDocumento.revisionActual,
-    nivelRetencion: historialDocumento.nivelRetencion,
-      secuenciaContenido: historialDocumento.secuenciaContenido,
-      secuenciaEstructura: historialDocumento.secuenciaEstructura,
-      secuenciaAccion: historialDocumento.secuenciaAccion
-    });
+    const datos = JSON.stringify(datosHistorialActuales());
     if (datos.length > LIMITE_CARACTERES_HISTORIAL) {
       console.warn("El historial actual supera el límite de almacenamiento; no se pudo guardar completo.");
-      return false;
+      return;
     }
-    localStorage.setItem(CLAVE_HISTORIAL_DOCUMENTO, datos);
-    return true;
+    if (datos === baseHistorialPersistido) return;
+    escrituraHistorialPendiente = datos;
+    const escribir = () => {
+      if (escrituraHistorialPendiente !== datos) return;
+      try {
+        if (localStorage.getItem(CLAVE_HISTORIAL_DOCUMENTO) !== baseHistorialPersistido) {
+          document.getElementById("historial-conflicto").hidden = false;
+          guardarBorradorHistorial(datos);
+          return;
+        }
+        localStorage.setItem(CLAVE_HISTORIAL_DOCUMENTO, datos);
+        baseHistorialPersistido = datos;
+        document.getElementById("historial-conflicto").hidden = true;
+        sessionStorage.removeItem(CLAVE_BORRADOR_HISTORIAL);
+      } catch (error) {
+        document.querySelector("#historial-conflicto [role=status]").textContent =
+          "El historial del navegador no se pudo guardar. Puedes exportar el borrador.";
+        document.getElementById("historial-conflicto").hidden = false;
+        guardarBorradorHistorial(datos);
+        console.warn("No se pudo guardar el historial del documento en el navegador.", error);
+      } finally {
+        escrituraHistorialPendiente = null;
+      }
+    };
+    if (navigator.locks?.request) {
+      navigator.locks.request(CLAVE_HISTORIAL_DOCUMENTO, escribir).catch(escribir);
+    } else {
+      escribir();
+    }
   } catch (error) {
-    console.warn("No se pudo guardar el historial del documento en el navegador.", error);
-    return false;
+    console.warn("No se pudo preparar el historial del documento.", error);
   }
 }
 
@@ -11037,7 +11142,21 @@ function cargarHistorialPersistido() {
       localStorage.removeItem(CLAVE_ACCESO_HISTORIAL);
       return false;
     }
-    const datos = JSON.parse(localStorage.getItem(CLAVE_HISTORIAL_DOCUMENTO) || "null");
+    const compartido = localStorage.getItem(CLAVE_HISTORIAL_DOCUMENTO);
+    baseHistorialPersistido = compartido;
+    let datos = JSON.parse(compartido || "null");
+    try {
+      const borrador = JSON.parse(sessionStorage.getItem(CLAVE_BORRADOR_HISTORIAL) || "null");
+      const datosBorrador = JSON.parse(borrador?.datos || "null");
+      if (historialPersistidoValido(datosBorrador) && borrador.datos !== compartido) {
+        datos = datosBorrador;
+        baseHistorialPersistido = borrador.base;
+        borradorHistorialRecuperado = true;
+        document.getElementById("historial-conflicto").hidden = borrador.base === compartido;
+      }
+    } catch (error) {
+      console.warn("No se pudo leer el borrador de la pestaña.", error);
+    }
     if (!historialPersistidoValido(datos)) return false;
 
     historialDocumento.contenidos = datos.contenidos;
@@ -11055,7 +11174,7 @@ function cargarHistorialPersistido() {
     historialDocumento.secuenciaAccion = Math.max(Number(datos.secuenciaAccion) || 0, ...datos.acciones.map((accion) => Number(accion.id) || 0));
     historialDocumento.nivelRetencion = datos.nivelRetencion || null;
     actualizarIndicesVersionesHistorial();
-    restaurarEstadoHistorial(historialDocumento.estadoActual);
+    restaurarEstadoHistorial(historialDocumento.estadoActual, false);
     renderizarHistorialDocumento();
     marcarAccesoHistorial(true);
     return true;
@@ -11186,7 +11305,6 @@ function ImportarJSON(input) {
     if (lectorImportacionActivo !== lector) return;
     lectorImportacionActivo = null;
     let respaldoImportacion = null;
-    let almacenamientoImportacionModificado = false;
     let documentoImportacionIniciado = false;
     try {
       const paquete = JSON.parse(String(lector.result || ""));
@@ -11209,16 +11327,10 @@ function ImportarJSON(input) {
         contenido: raiz.cloneNode(true),
         titulo: document.title,
         nombrePagina: document.querySelector("#menu-lateral .nombre p")?.textContent || "NeoDoc",
-        historial: localStorage.getItem(CLAVE_HISTORIAL_DOCUMENTO),
         historialEnMemoria: historialActivo ? JSON.parse(JSON.stringify(datosHistorialActuales())) : null,
         cacheContenido: Array.from(elementCache.entries()),
         plantillasPersonalizadas: JSON.parse(JSON.stringify(plantillasPersonalizadas))
       };
-
-      // El JSON solo intercambia el contenido y el título; el historial y los
-      // estilos personalizados pertenecen a esta instalación de NeoDoc.
-      localStorage.removeItem(CLAVE_HISTORIAL_DOCUMENTO);
-      almacenamientoImportacionModificado = true;
 
       documentoImportacionIniciado = true;
       liberarRecursosContenidos(raiz);
@@ -11234,10 +11346,10 @@ function ImportarJSON(input) {
         if (nombre) nombre.textContent = paquete.titulo.trim();
       }
 
-      localStorage.removeItem(CLAVE_HISTORIAL_DOCUMENTO);
       marcarAccesoHistorial(true);
       testContenedor();
       document.querySelectorAll("#conten .content:not(.unloaded)").forEach(observeNewContent);
+      aplicarEditabilidad(raiz, document.body.classList.contains("Edit"));
       if (historialActivo) {
         historialDocumento.estadoActual = crearEstadoHistorial();
         revisionHistorialDeEstado(historialDocumento.estadoActual, "Estado inicial");
@@ -11250,14 +11362,6 @@ function ImportarJSON(input) {
       input.value = "";
       alert("Documento JSON importado correctamente.");
     } catch (error) {
-      if (respaldoImportacion && almacenamientoImportacionModificado) {
-        try {
-          if (respaldoImportacion.historial === null) localStorage.removeItem(CLAVE_HISTORIAL_DOCUMENTO);
-          else localStorage.setItem(CLAVE_HISTORIAL_DOCUMENTO, respaldoImportacion.historial);
-        } catch (errorRestauracion) {
-          console.warn("No se pudo recuperar la copia anterior del historial del navegador.", errorRestauracion);
-        }
-      }
       if (respaldoImportacion && documentoImportacionIniciado) {
         try {
           const raizActual = document.querySelector("#conten");
@@ -11269,12 +11373,15 @@ function ImportarJSON(input) {
           const nombrePagina = document.querySelector("#menu-lateral .nombre p");
           if (nombrePagina) nombrePagina.textContent = respaldoImportacion.nombrePagina;
           elementCache.clear();
-          respaldoImportacion.cacheContenido.forEach(([id, cache]) => elementCache.set(id, cache));
+          respaldoImportacion.cacheContenido.forEach(([id, cache]) => {
+            const elemento = document.getElementById(id);
+            if (elemento) elementCache.set(id, { ...cache, elemento });
+          });
           elementosSeleccionadosNeoDoc.clear();
           establecerPlantillasPersonalizadas(respaldoImportacion.plantillasPersonalizadas);
 
           reiniciarDatosHistorial();
-          let historialAnteriorRestaurado = historialActivo && cargarHistorialPersistido();
+          let historialAnteriorRestaurado = false;
           if (historialActivo && !historialAnteriorRestaurado && respaldoImportacion.historialEnMemoria) {
             const anterior = respaldoImportacion.historialEnMemoria;
             historialDocumento.contenidos = anterior.contenidos;
@@ -11350,6 +11457,9 @@ function htmlContenidoHistorial(contenido) {
   copia.querySelectorAll(".section-drag").forEach((elemento) => elemento.remove());
   if (copia.classList.contains("multimedia")) {
     copia.querySelectorAll(".contenido audio").forEach((audio) => {
+      const fuente = audio.querySelector("source[src]") || audio;
+      const tipo = fuente.getAttribute("type") || obtenerTipoFuenteMultimedia(fuente.getAttribute("src") || "", copia);
+      if (/^audio\//i.test(tipo)) return;
       const video = document.createElement("video");
       Array.from(audio.attributes).forEach((atributo) => video.setAttribute(atributo.name, atributo.value));
       Array.from(audio.childNodes).forEach((nodo) => video.appendChild(nodo.cloneNode(true)));
@@ -11461,7 +11571,7 @@ function revisionHistorialDeEstado(estado, tipo, descripcion = "") {
   historialDocumento.estructura.push(revision);
   historialDocumento.revisionActual = revision.id;
   renderizarHistorialDocumento();
-  guardarHistorialPersistido();
+  if (historialDocumento.eventosInstalados) guardarHistorialPersistido();
   return revision;
 }
 
@@ -11630,7 +11740,7 @@ function registrarAccionHistorial(tipo, antes, despues, descripcion = "", regist
 }
 
 // Finalidad: Restaura estado historial.
-function restaurarEstadoHistorial(estado) {
+function restaurarEstadoHistorial(estado, persistirPlantillas = true) {
   const raiz = document.querySelector("#conten");
   if (!raiz || !estado) return;
   const plantilla = document.createElement("template");
@@ -11662,7 +11772,7 @@ function restaurarEstadoHistorial(estado) {
     document.title = nombrePagina;
   }
   if (Array.isArray(estado.plantillasPersonalizadas)) {
-    establecerPlantillasPersonalizadas(estado.plantillasPersonalizadas, true);
+    establecerPlantillasPersonalizadas(estado.plantillasPersonalizadas, persistirPlantillas);
   }
   historialDocumento.restaurando = true;
   historialDocumento.observador?.disconnect();
@@ -11807,11 +11917,6 @@ function limpiarHistorialDocumento() {
   historialDocumento.nivelRetencion = null;
   actualizarIndicesVersionesHistorial();
   renderizarHistorialDocumento();
-  try {
-    localStorage.removeItem(CLAVE_HISTORIAL_DOCUMENTO);
-  } catch (error) {
-    console.warn("No se pudo eliminar la copia anterior del historial del navegador.", error);
-  }
   guardarHistorialPersistido();
 }
 
@@ -11876,6 +11981,7 @@ function iniciarHistorialDocumento() {
   limpiarHistorialesInactivos();
   try {
     historialActivo = localStorage.getItem(CLAVE_HISTORIAL_ACTIVO) !== "false";
+    baseHistorialPersistido = localStorage.getItem(CLAVE_HISTORIAL_DOCUMENTO);
   } catch {
     historialActivo = true;
   }
@@ -11891,7 +11997,7 @@ function iniciarHistorialDocumento() {
     } else {
       asegurarRevisionInicialArchivo(inicial, versionesIniciales);
       historialDocumento.estadoActual = crearEstadoHistorial() || historialDocumento.estadoActual;
-      guardarHistorialPersistido();
+      if (borradorHistorialRecuperado && document.getElementById("historial-conflicto").hidden) guardarHistorialPersistido();
     }
   }
   actualizarPuntoSegunHistorial();
@@ -11915,12 +12021,14 @@ function iniciarHistorialDocumento() {
       document.addEventListener(evento, () => marcarAccesoHistorial(), { passive: true });
     });
     window.addEventListener("focus", () => marcarAccesoHistorial(true));
-    window.addEventListener("pagehide", () => {
+    const conservarCambiosAlSalir = () => {
       clearTimeout(historialDocumento.temporizador);
       procesarMutacionesHistorial();
-      guardarHistorialPersistido();
+      guardarBorradorHistorial(escrituraHistorialPendiente);
       marcarAccesoHistorial(true);
-    });
+    };
+    window.addEventListener("beforeunload", conservarCambiosAlSalir);
+    window.addEventListener("pagehide", conservarCambiosAlSalir);
     historialDocumento.eventosInstalados = true;
   }
 }
@@ -11962,8 +12070,6 @@ function cambiarEstadoHistorial(activar) {
     historialActivo = true;
     clearTimeout(historialDocumento.temporizador);
     reiniciarDatosHistorial();
-    try { localStorage.removeItem(CLAVE_HISTORIAL_DOCUMENTO); }
-    catch (error) { console.warn("No se pudo reiniciar el historial del documento.", error); }
     marcarAccesoHistorial(true);
     const estadoInicial = crearEstadoHistorial();
     historialDocumento.estadoActual = estadoInicial;
@@ -12042,4 +12148,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
+  
+
+
+
+
 </body></html>
