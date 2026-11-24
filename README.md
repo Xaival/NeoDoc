@@ -23,6 +23,9 @@ Organiza el contenido en secciones de una, dos o tres columnas, con diferentes p
 - **Código:** resaltado de sintaxis, selección de lenguaje, leyenda opcional y copia al portapapeles.
 - **Personalizado:** bloques HTML y CSS propios, reutilizables mediante plantillas guardadas.
 
+<img width="510" height="795" alt="image" src="https://github.com/user-attachments/assets/5341be50-7cd6-48f0-aef3-ed22ed41f273" />
+
+
 ### ✏️ Edición y organización
 
 - Modos Vista y Edición.
