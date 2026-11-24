@@ -73,18 +73,27 @@ Organiza los bloques en secciones de una, dos o tres columnas:
 
 ## 📁 Uso
 
+1. [Descarga NeoDoc.html](https://raw.githubusercontent.com/Xaival/NeoDoc/main/Proyecto/NeoDoc.html) desde el repositorio y guárdalo en tu equipo.
 1. Abre [`NeoDoc.html`](./NeoDoc.html) directamente en un navegador compatible.
 2. Activa el modo Edición para crear o modificar contenido.
 3. Utiliza la opción Guardar para descargar una copia HTML con tus cambios.
 4. Abre el archivo descargado para continuar trabajando sobre esa versión.
+2. Abre el archivo directamente en un navegador compatible.
+3. Activa el modo Edición para crear o modificar contenido.
+4. Utiliza la opción Guardar para descargar una copia HTML con tus cambios.
+5. Abre el archivo descargado para continuar trabajando sobre esa versión.
 
 No se requiere instalación, servidor ni conexión a Internet para las funciones integradas. Los recursos enlazados desde Internet sí requieren conexión y pueden estar sujetos a restricciones del sitio de origen o del navegador, especialmente los vídeos de YouTube cuando el documento se abre como archivo local.
 
 El historial guardado en el navegador no sustituye al guardado del archivo HTML.
 
 ## 🧪 Documento de pruebas
+## 📂 Estructura del repositorio
 
 [`NeoDoc-Pruebas.html`](./NeoDoc-Pruebas.html) incluye ejemplos de todos los tipos de contenido y distribuciones disponibles. Permite explorar las funciones del editor sin modificar el documento principal.
+- [`Proyecto/NeoDoc.html`](./Proyecto/NeoDoc.html): editor completo.
+- [`LICENCIA.txt`](./LICENCIA.txt): condiciones de uso y distribución.
+- `README.md`: documentación del proyecto.
 
 ---
 
@@ -95,4 +104,5 @@ NeoDoc ha completado su desarrollo funcional, revisión de código, optimizació
 ## 📜 Licencia
 
 Este proyecto se distribuye bajo la **Licencia NeoDoc**.
+Este proyecto se distribuye bajo la **Licencia NeoDoc**, basada en MIT pero con restricciones específicas de uso comercial.
 Consulta el archivo [LICENCIA.txt](./LICENCIA.txt) para más detalles.
