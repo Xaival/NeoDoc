@@ -11,6 +11,11 @@
 
 También están disponibles las ediciones minificadas [NeoDoc-min.html](./Proyecto/NeoDoc-min.html) y [NeoDoc-min.php](./Proyecto/NeoDoc-min.php).
 
+## Acceso directo
+
+- [Abrir NeoDoc HTML](https://xaival.github.io/NeoDoc/Proyecto/NeoDoc.html)
+- [Abrir NeoDoc HTML minificado](https://xaival.github.io/NeoDoc/Proyecto/NeoDoc-min.html)
+
 ## Empezar con NeoDoc.html
 
 1. Abre [NeoDoc.html](./Proyecto/NeoDoc.html) en GitHub y descarga el archivo.
